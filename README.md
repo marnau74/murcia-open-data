@@ -9,6 +9,11 @@ actualiza solo cada mes.
 
 **[Ver el informe →](https://marnau74.github.io/murcia-open-data/)**
 
+> **En evolución hacia la v2:** más fuentes (API del INE), transformaciones en dbt sobre
+> DuckDB, orquestación con Dagster y despliegue en Databricks. La v1 queda en el tag
+> [`v1.0.0`](https://github.com/marnau74/murcia-open-data/tree/v1.0.0); los cambios, en el
+> [CHANGELOG](CHANGELOG.md).
+
 [![Captura del informe](docs/captura.png)](https://marnau74.github.io/murcia-open-data/)
 
 ## La pregunta
@@ -37,7 +42,7 @@ mensual de viajeros y pernoctaciones en establecimientos hoteleros por destino
 turístico, elaborada por el CREM a partir de la Encuesta de Ocupación Hotelera
 del INE. El endpoint no está documentado como API pública; se descubrió
 navegando la web y sus particularidades están explicadas en
-[`src/ingest/murciaturistica_client.py`](src/ingest/murciaturistica_client.py).
+[`murciaturistica_client.py`](src/murcia_data/ingest/murciaturistica_client.py).
 
 Se descartaron tras explorarlas: el INE en bruto (solo distingue Cartagena /
 Murcia capital / Costa Cálida, sin el desglose de 11 destinos que sí ofrece la
@@ -49,15 +54,15 @@ Murcia es inalcanzable).
 
 ```
 murciaturistica.es (destinos)
-      │  src/ingest/          cliente de solo lectura, con caché local
+      │  ingest/              cliente de solo lectura, con caché local
       ▼
 data/raw/                     HTML crudo por mes (no versionado)
-      │  src/transform/       modelo estrella (pandas)
+      │  transform/           modelo estrella (pandas)
       ▼
 data/processed/*.parquet      fact + dimensiones
-      │  src/quality/         validaciones (nulos, duplicados, integridad,
+      │  quality/             validaciones (nulos, duplicados, integridad,
       │                       rangos y cuadre con los totales publicados)
-      │  src/report/          indicadores + generación de la web
+      │  report/              indicadores + generación de la web
       ▼
 site/index.html               publicado en GitHub Pages
 ```
@@ -87,7 +92,7 @@ todo de invierno), un 3,5 % del total. Eso exageraba la estacionalidad de la
 costa: relación agosto/enero de 9,4 en vez del 7,5 real.
 
 Por eso `dim_destino` incluye un miembro `(no desglosado)` por zona que recoge
-esa diferencia, y `src/quality/` valida en cada ejecución que sumar una zona
+esa diferencia, y `quality/` valida en cada ejecución que sumar una zona
 reproduce exactamente el total publicado. La columna `desglosado` permite
 excluir esos miembros del análisis por destino sin falsear los agregados por
 zona.
@@ -102,14 +107,17 @@ comparaciones entre meses del informe usan solo años completos.
 
 ## Cómo ejecutarlo
 
-Requiere Python 3.12 o superior.
+Requiere [uv](https://docs.astral.sh/uv/) (instala Python 3.12 o 3.13 si hace falta).
 
 ```bash
-pip install -r requirements.txt
-pytest -q                          # tests de transformación, calidad e indicadores
-python -m src.pipeline             # ingesta + transformación + validación
-python -m src.report.build_site    # genera site/index.html
+uv sync                                          # entorno y dependencias exactas (uv.lock)
+uv run pytest                                    # tests de transformación, calidad e indicadores
+uv run python -m murcia_data.pipeline            # ingesta + transformación + validación
+uv run python -m murcia_data.report.build_site   # genera site/index.html
 ```
+
+Para contribuir: `uv run pre-commit install` activa las mismas comprobaciones que la CI
+(ruff para lint y formato).
 
 La primera ejecución descarga unos 120 meses con una pausa entre peticiones
 para no sobrecargar la fuente; las siguientes usan la caché de `data/raw/`.
@@ -117,19 +125,22 @@ para no sobrecargar la fuente; las siguientes usan la caché de `data/raw/`.
 ## Estructura
 
 ```
-src/
+src/murcia_data/
   ingest/      cliente HTTP de la fuente (solo trae datos, no transforma)
   transform/   construcción del modelo estrella
   quality/     comprobaciones reutilizables desde el pipeline y los tests
   report/      indicadores y plantilla de la web
   pipeline.py  punto de entrada
 tests/         tests con pytest
+docs/adr/      decisiones de arquitectura
 ```
+
+Las decisiones de diseño están documentadas como ADR en [`docs/adr/`](docs/adr/README.md).
 
 ## Stack
 
-Python · pandas · requests · pyarrow · pytest · GitHub Actions · GitHub Pages ·
-Observable Plot
+Python · uv · ruff · pandas · requests · pyarrow · pytest · GitHub Actions ·
+GitHub Pages · Observable Plot
 
 ## Licencia
 
