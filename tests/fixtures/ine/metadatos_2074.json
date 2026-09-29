@@ -1,0 +1,660 @@
+[
+ {
+  "COD": "EOT1769",
+  "Nombre": "Murcia (Región de). Viajeros. Total.",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 9010,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Murcia, Región de",
+    "Codigo": "14"
+   },
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9975,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Total",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 175870.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT1770",
+  "Nombre": "Murcia (Región de). Viajeros. Residentes en España.",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 9010,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Murcia, Región de",
+    "Codigo": "14"
+   },
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19964,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en España",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 127910.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT1771",
+  "Nombre": "Murcia (Región de). Viajeros. Residentes en el extranjero.",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 9010,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Murcia, Región de",
+    "Codigo": "14"
+   },
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19965,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en el Extranjero",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 47960.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT1772",
+  "Nombre": "Murcia (Región de). Pernoctaciones. Total.",
+  "T3_Unidad": "Pernoctaciones",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 9010,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Murcia, Región de",
+    "Codigo": "14"
+   },
+   {
+    "Id": 284333,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Pernoctaciones",
+    "Codigo": "C"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9975,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Total",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 457234.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT1773",
+  "Nombre": "Murcia (Región de). Pernoctaciones. Residentes en España.",
+  "T3_Unidad": "Pernoctaciones",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 9010,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Murcia, Región de",
+    "Codigo": "14"
+   },
+   {
+    "Id": 284333,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Pernoctaciones",
+    "Codigo": "C"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19964,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en España",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 334360.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT1774",
+  "Nombre": "Murcia (Región de). Pernoctaciones. Residentes en el extranjero.",
+  "T3_Unidad": "Pernoctaciones",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 9010,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Murcia, Región de",
+    "Codigo": "14"
+   },
+   {
+    "Id": 284333,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Pernoctaciones",
+    "Codigo": "C"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19965,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en el Extranjero",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 122874.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT22179",
+  "Nombre": "Murcia. Viajero. Total categorías. Total. Dato. ",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 31,
+    "T3_Variable": "Provincias",
+    "Nombre": "Murcia",
+    "Codigo": "30"
+   },
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9975,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Total",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 175870.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT22178",
+  "Nombre": "Murcia. Viajero. Total categorías. Residentes en España. Dato. ",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 31,
+    "T3_Variable": "Provincias",
+    "Nombre": "Murcia",
+    "Codigo": "30"
+   },
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19964,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en España",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 127910.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT22177",
+  "Nombre": "Murcia. Viajero. Total categorías. Residentes en el Extranjero. Dato. ",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 31,
+    "T3_Variable": "Provincias",
+    "Nombre": "Murcia",
+    "Codigo": "30"
+   },
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19965,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en el Extranjero",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 47960.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT22176",
+  "Nombre": "Murcia. Pernoctaciones. Total categorías. Total. Dato. ",
+  "T3_Unidad": "Pernoctaciones",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 31,
+    "T3_Variable": "Provincias",
+    "Nombre": "Murcia",
+    "Codigo": "30"
+   },
+   {
+    "Id": 284333,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Pernoctaciones",
+    "Codigo": "C"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9975,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Total",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 457234.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT22175",
+  "Nombre": "Murcia. Pernoctaciones. Total categorías. Residentes en España. Dato. ",
+  "T3_Unidad": "Pernoctaciones",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 31,
+    "T3_Variable": "Provincias",
+    "Nombre": "Murcia",
+    "Codigo": "30"
+   },
+   {
+    "Id": 284333,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Pernoctaciones",
+    "Codigo": "C"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19964,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en España",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 334360.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT22174",
+  "Nombre": "Murcia. Pernoctaciones. Total categorías. Residentes en el Extranjero. Dato. ",
+  "T3_Unidad": "Pernoctaciones",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 31,
+    "T3_Variable": "Provincias",
+    "Nombre": "Murcia",
+    "Codigo": "30"
+   },
+   {
+    "Id": 284333,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Pernoctaciones",
+    "Codigo": "C"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19965,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en el Extranjero",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 122874.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT1451",
+  "Nombre": "Andalucía. Viajeros. Total.",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 8997,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Andalucía",
+    "Codigo": "01"
+   },
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9975,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Total",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 2332985.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT1452",
+  "Nombre": "Andalucía. Viajeros. Residentes en España.",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 8997,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Andalucía",
+    "Codigo": "01"
+   },
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 19964,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en España",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 1348406.0
+   }
+  ]
+ }
+]
