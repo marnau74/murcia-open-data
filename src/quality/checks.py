@@ -44,8 +44,8 @@ def cuadra_con_totales_publicados(
     No es una comprobación redundante: la fuente pone 0 en los destinos
     individuales cuando el grado de respuesta es bajo, pero mantiene el
     subtotal de zona. Sin esta validación, ese hueco pasa desapercibido y
-    subestima la zona (ocurrió con la costa: 962.641 pernoctaciones perdidas
-    en 45 meses de invierno, que exageraban su estacionalidad).
+    subestima la zona (ocurrió con la costa: 962.644 pernoctaciones perdidas
+    en 45 meses, sobre todo de invierno, que exageraban su estacionalidad).
     """
     sumado = (
         hechos.merge(dim_destino[["destino_id", "zona"]], on="destino_id")

@@ -15,10 +15,10 @@ proyecto.
 A esos 11 se les suma un destino "(no desglosado)" por zona. Motivo: cuando
 el grado de respuesta de las encuestas es bajo, la fuente publica 0 en los
 destinos individuales pero mantiene el subtotal real de la zona (secreto
-estadístico). Quedándonos solo con los destinos hoja perdíamos 962.641
-pernoctaciones de costa en 45 meses —casi todos de invierno—, lo que
-exageraba la estacionalidad de la costa (ratio agosto/enero 9,6 en vez del
-7,0 real). El miembro residual recoge esa diferencia, de modo que sumar
+estadístico). Quedándonos solo con los destinos hoja perdíamos 962.644
+pernoctaciones de costa en 45 meses —sobre todo de invierno—, lo que
+exageraba la estacionalidad de la costa (ratio agosto/enero de 9,4 en vez
+del 7,5 real en los años completos 2015-2024). El miembro residual recoge esa diferencia, de modo que sumar
 todos los destinos de una zona reproduce siempre el total publicado.
 
 Este módulo trabaja sobre DataFrames de pandas. Las funciones son puras
