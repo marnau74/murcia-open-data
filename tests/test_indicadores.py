@@ -1,8 +1,9 @@
 """Tests de los indicadores que se publican en la web."""
+
 import pandas as pd
 import pytest
 
-from src.report.indicadores import (
+from murcia_data.report.indicadores import (
     anios_completos,
     efecto_no_desglosado,
     indice_anual,
@@ -10,13 +11,13 @@ from src.report.indicadores import (
     perfil_estacional,
     serie_mensual,
 )
-from src.transform.star_schema import construir_dim_destino, construir_dim_fecha
+from murcia_data.transform.star_schema import construir_dim_destino, construir_dim_fecha
 
 
 def _modelo(filas):
     """Construye el modelo plano a partir de filas (anio, mes, destino, pernoctaciones)."""
     dim_destino = construir_dim_destino()
-    ids = dict(zip(dim_destino["nombre"], dim_destino["destino_id"]))
+    ids = dict(zip(dim_destino["nombre"], dim_destino["destino_id"], strict=True))
     fact = pd.DataFrame(
         [
             {
@@ -81,7 +82,7 @@ def test_efecto_no_desglosado_mide_el_sesgo_de_estacionalidad():
     filas += [(2019, 1, "La Manga", 100), (2019, 1, "Costa (no desglosado)", 400)]
     plano, _ = _modelo(filas)
     efecto = efecto_no_desglosado(plano, [2019])
-    assert efecto["ratio_con_correccion"] == pytest.approx(2.0)   # 1000 / 500
+    assert efecto["ratio_con_correccion"] == pytest.approx(2.0)  # 1000 / 500
     assert efecto["ratio_sin_correccion"] == pytest.approx(10.0)  # 1000 / 100
     assert efecto["pernoctaciones_no_desglosadas"] == 400
     assert efecto["meses_afectados"] == 1
