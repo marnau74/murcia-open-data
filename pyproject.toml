@@ -7,6 +7,8 @@ license = "MIT"
 authors = [{ name = "Mario Arnau" }]
 requires-python = ">=3.12,<3.14"
 dependencies = [
+    "dagster>=1.13",
+    "dagster-dbt>=0.29",
     "dbt-core>=1.10",
     "dbt-duckdb>=1.10",
     "duckdb>=1.5",
@@ -18,6 +20,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "dagster-webserver>=1.13",
     "pre-commit>=4.0",
     "pytest>=8.3",
     "ruff>=0.16",
@@ -51,3 +54,6 @@ select = [
     "SIM", # simplificaciones
     "PD",  # buenas prácticas de pandas
 ]
+
+[tool.dagster]
+module_name = "murcia_data.definitions"

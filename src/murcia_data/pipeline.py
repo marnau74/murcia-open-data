@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from murcia_data.ingest.murciaturistica_client import MurciaturisticaClient
+from murcia_data.ingest.murciaturistica_client import INICIO_SERIE, MurciaturisticaClient, mes_anterior
 from murcia_data.quality.checks import (
     cuadra_con_totales_publicados,
     integridad_referencial,
@@ -31,22 +31,13 @@ from murcia_data.transform.star_schema import (
 
 PROCESSED = Path("data/processed")
 
-# Inicio de la serie. El final es el mes anterior al actual: los meses que la
-# fuente aún no ha publicado se descartan en la transformación, así que la
-# ejecución mensual incorpora sola los datos nuevos cuando aparecen.
-ANIO_INICIO, MES_INICIO = 2015, 1
-
-
-def _mes_anterior(hoy: date) -> tuple[int, int]:
-    return (hoy.year, hoy.month - 1) if hoy.month > 1 else (hoy.year - 1, 12)
-
 
 def main() -> None:
     PROCESSED.mkdir(parents=True, exist_ok=True)
 
     # 1. INGESTA
     cliente = MurciaturisticaClient()
-    crudo = cliente.serie(ANIO_INICIO, MES_INICIO, *_mes_anterior(date.today()))
+    crudo = cliente.serie(*INICIO_SERIE, *mes_anterior(date.today()))
 
     # 2. TRANSFORMACIÓN a modelo estrella
     crudo, sin_publicar = descartar_meses_sin_publicar(crudo)
