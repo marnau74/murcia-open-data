@@ -1,0 +1,5 @@
+tipo_alojamiento_id,nombre,encuesta_ine
+hotel,Hoteles,EOH
+apartamento,Apartamentos turísticos,EOAP
+camping,Campings,EOAC
+rural,Alojamientos de turismo rural,EOTR
