@@ -1,0 +1,29 @@
+[sqlfluff]
+dialect = duckdb
+templater = jinja
+max_line_length = 120
+# ST06 obliga a poner las columnas calculadas al final; en staging se prefiere seguir
+# el orden de la fuente, que se lee mejor al comparar con ella.
+exclude_rules = ST06
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = True
+
+[sqlfluff:indentation]
+tab_space_size = 4
+indented_joins = False
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:aliasing.table]
+aliasing = explicit
+
+[sqlfluff:rules:aliasing.column]
+aliasing = explicit
