@@ -1,80 +1,138 @@
 # Estacionalidad turística en la Región de Murcia
 
+[![pipeline](https://github.com/marnau74/murcia-open-data/actions/workflows/pipeline.yml/badge.svg)](https://github.com/marnau74/murcia-open-data/actions/workflows/pipeline.yml)
+[![Licencia MIT](https://img.shields.io/badge/licencia-MIT-lightgrey.svg)](LICENSE)
+
 Pipeline de datos abiertos que ingiere estadística pública, la transforma a un
-modelo dimensional y publica un informe interactivo. Proyecto de portfolio.
+modelo dimensional, valida su calidad y publica un informe web que se
+actualiza solo cada mes.
+
+**[Ver el informe →](https://marnau74.github.io/murcia-open-data/)**
+
+[![Captura del informe](docs/captura.png)](https://marnau74.github.io/murcia-open-data/)
 
 ## La pregunta
 
-¿Cómo se comporta la demanda hostelera y turística en la Región de Murcia a lo
-largo del año, y qué diferencia hay entre los municipios de costa y los de
-interior? El sector es fuertemente estacional; este proyecto lo cuantifica con
-datos oficiales.
+¿Cómo se comporta la demanda hotelera en la Región de Murcia a lo largo del
+año, y qué diferencia hay entre la costa, las ciudades y el interior? El
+sector es muy estacional; este proyecto lo cuantifica con datos oficiales.
 
-## Fuentes de datos
+## Resultados
 
-- **murciaturistica.es** (Instituto de Turismo de la Región de Murcia) — serie
-  mensual de viajeros y pernoctaciones por destino turístico, reprocesada por
-  el CREM a partir de la Encuesta de Ocupación Hotelera del INE. Es la fuente
-  real del pipeline: ver `src/ingest/murciaturistica_client.py` para el
-  porqué y las particularidades del endpoint (no documentado como API
-  pública, descubierto navegando la web).
+Con datos de enero de 2015 a diciembre de 2024 (las cifras al día están en el
+informe, que las recalcula en cada ejecución):
 
-Datos públicos y reutilizables. Se descartaron tras explorarlos: el INE en
-bruto (solo distingue Cartagena / Murcia capital / Costa Cálida, sin el
-desglose de 11 destinos que sí ofrece la fuente elegida) y los portales CKAN
-regionales/municipales (uno solo tiene directorios de establecimientos, no
-series de demanda; el del Ayuntamiento de Murcia es inalcanzable).
+- **La costa concentra su año en verano.** Agosto reúne el 18,2 % de sus
+  pernoctaciones anuales y diciembre el 2,2 %: una relación agosto/enero de
+  7,5 frente a 1,6 en las ciudades y 2,3 en el interior.
+- **Estancias más largas y más turismo extranjero en la costa:** 3,4 noches
+  de media (1,75 en las ciudades) y un 30 % de pernoctaciones de no residentes.
+- **Recuperación desigual tras la pandemia.** En 2024, con 2019 como base
+  100, el interior está en 123, las ciudades en 111 y la costa en 97.
+
+## Fuente de datos
+
+**murciaturistica.es** (Instituto de Turismo de la Región de Murcia): serie
+mensual de viajeros y pernoctaciones en establecimientos hoteleros por destino
+turístico, elaborada por el CREM a partir de la Encuesta de Ocupación Hotelera
+del INE. El endpoint no está documentado como API pública; se descubrió
+navegando la web y sus particularidades están explicadas en
+[`src/ingest/murciaturistica_client.py`](src/ingest/murciaturistica_client.py).
+
+Se descartaron tras explorarlas: el INE en bruto (solo distingue Cartagena /
+Murcia capital / Costa Cálida, sin el desglose de 11 destinos que sí ofrece la
+fuente elegida) y los portales CKAN regionales y municipales (uno solo tiene
+directorios de establecimientos, no series de demanda; el del Ayuntamiento de
+Murcia es inalcanzable).
 
 ## Arquitectura
 
 ```
 murciaturistica.es (destinos)
-      │  src/ingest/         cliente de solo lectura, con caché local
+      │  src/ingest/          cliente de solo lectura, con caché local
       ▼
-data/raw/                    HTML crudo por mes (no versionado)
-      │  src/transform/      construcción del modelo estrella (pandas)
+data/raw/                     HTML crudo por mes (no versionado)
+      │  src/transform/       modelo estrella (pandas)
       ▼
-data/processed/*.parquet     fact + dimensiones
-      │  src/quality/        validaciones (nulos, duplicados, integridad, rangos)
+data/processed/*.parquet      fact + dimensiones
+      │  src/quality/         validaciones (nulos, duplicados, integridad,
+      │                       rangos y cuadre con los totales publicados)
+      │  src/report/          indicadores + generación de la web
       ▼
-Power BI                     informe publicado en Power BI Service
+site/index.html               publicado en GitHub Pages
 ```
 
-Orquestación: GitHub Actions ejecuta tests + pipeline el día 1 de cada mes.
+GitHub Actions ejecuta los tests en cada push y pull request. El día 1 de cada
+mes, además, lanza el pipeline completo y vuelve a publicar la web. El
+pipeline pide hasta el mes anterior al actual, así que incorpora los datos
+nuevos en cuanto la fuente los publica.
 
 ### Modelo estrella
 
-- `fact_ocupacion` — viajeros y pernoctaciones (residentes/no residentes) por destino/mes
-- `dim_destino` — nombre y zona (ciudad / costa / interior), clasificación oficial
-  del Instituto de Turismo, no inventada para este proyecto
-- `dim_fecha` — fecha, año, mes, trimestre
+- `fact_ocupacion`: viajeros y pernoctaciones (residentes / no residentes) por
+  destino y mes.
+- `dim_destino`: nombre y zona (ciudad / costa / interior). Es la
+  clasificación oficial del Instituto de Turismo, no una inventada para este
+  proyecto.
+- `dim_fecha`: fecha, año, mes, trimestre.
+
+## Decisiones sobre los datos
 
 ### Secreto estadístico
 
 Cuando el grado de respuesta de las encuestas es bajo, la fuente publica 0 en
 los destinos individuales pero mantiene el subtotal real de la zona. Sumar
-solo los destinos perdía 962.641 pernoctaciones de costa en 45 meses (casi
-todos de invierno), lo que exageraba su estacionalidad: ratio agosto/enero de
-9,6 en vez del 7,0 real. Por eso `dim_destino` incluye un miembro
-`(no desglosado)` por zona que recoge esa diferencia —un 3,5% del total— y
-`src/quality/` valida en cada ejecución que sumar una zona reproduce
-exactamente el total publicado. La columna `desglosado` permite excluir esos
-miembros del análisis por destino sin falsear los agregados por zona.
+solo los destinos perdía 962.644 pernoctaciones de costa en 45 meses (sobre
+todo de invierno), un 3,5 % del total. Eso exageraba la estacionalidad de la
+costa: relación agosto/enero de 9,4 en vez del 7,5 real.
+
+Por eso `dim_destino` incluye un miembro `(no desglosado)` por zona que recoge
+esa diferencia, y `src/quality/` valida en cada ejecución que sumar una zona
+reproduce exactamente el total publicado. La columna `desglosado` permite
+excluir esos miembros del análisis por destino sin falsear los agregados por
+zona.
+
+### Meses sin publicar
+
+Para los meses que no publica (marzo a junio y diciembre de 2020, y cualquier
+mes posterior al último disponible), la fuente no devuelve un error sino la
+tabla entera a 0. Tratarlos como meses con cero turistas hundiría las medias,
+así que se excluyen de la tabla de hechos y no se guardan en caché. Las
+comparaciones entre meses del informe usan solo años completos.
 
 ## Cómo ejecutarlo
 
+Requiere Python 3.12 o superior.
+
 ```bash
 pip install -r requirements.txt
-pytest -q                 # tests de calidad de datos
-python -m src.pipeline    # ingesta + transformación + validación
+pytest -q                          # tests de transformación, calidad e indicadores
+python -m src.pipeline             # ingesta + transformación + validación
+python -m src.report.build_site    # genera site/index.html
 ```
 
-## Estado
+La primera ejecución descarga unos 120 meses con una pausa entre peticiones
+para no sobrecargar la fuente; las siguientes usan la caché de `data/raw/`.
 
-Pipeline funcional de punta a punta contra la fuente real (ingesta,
-transformación, validación y guardado en Parquet). Pendiente: informe de
-Power BI y ampliar el rango histórico ingerido más allá de 2015–2024.
+## Estructura
+
+```
+src/
+  ingest/      cliente HTTP de la fuente (solo trae datos, no transforma)
+  transform/   construcción del modelo estrella
+  quality/     comprobaciones reutilizables desde el pipeline y los tests
+  report/      indicadores y plantilla de la web
+  pipeline.py  punto de entrada
+tests/         tests con pytest
+```
 
 ## Stack
 
-Python · pandas · requests · pyarrow · pytest · GitHub Actions · Power BI
+Python · pandas · requests · pyarrow · pytest · GitHub Actions · GitHub Pages ·
+Observable Plot
+
+## Licencia
+
+Código bajo licencia [MIT](LICENSE). Los datos pertenecen a sus autores (Instituto
+de Turismo de la Región de Murcia, CREM e INE) y no se redistribuyen en este
+repositorio: el pipeline los descarga de la fuente original.
