@@ -22,6 +22,12 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
   `bronze.murciaturistica_destinos`, tipadas, con el secreto estadístico y las notas
   del INE, columnas de auditoría (`_fichero_origen`, `_ingestado_en`) y registro de
   cada carga en `bronze._cargas`.
+- Proyecto dbt (`dbt/`) con la capa silver: staging 1:1 con bronze e intermedios con
+  las reglas de negocio de la v1 en SQL (meses sin publicar, destino «no desglosado»
+  por zona). Reproduce la tabla de hechos de la v1 sin ninguna diferencia (1.310 filas).
+  Tests genéricos propios, tests singulares de negocio y tests unitarios de dbt.
+- sqlfluff para el estilo del SQL y `dbt build` en la CI sobre un warehouse de prueba
+  construido con los fixtures.
 - pre-commit con ruff y comprobaciones básicas de ficheros.
 - Dependabot para dependencias y GitHub Actions.
 - ADR 0001-0003: DuckDB, Dagster y arquitectura por capas.
