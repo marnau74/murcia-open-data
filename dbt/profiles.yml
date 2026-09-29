@@ -1,0 +1,9 @@
+# Sin secretos: DuckDB es un fichero local. La ruta se puede cambiar con
+# MURCIA_WAREHOUSE (la CI la apunta a un warehouse de prueba).
+murcia_turismo:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('MURCIA_WAREHOUSE', 'data/warehouse.duckdb') }}"
+      threads: 4
