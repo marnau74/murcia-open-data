@@ -121,6 +121,7 @@ Plataforma v2 (en construcción):
 ```bash
 uv run python -m murcia_data.ingest.ine          # descarga las 121 series del INE a data/raw/ine/
 uv run python -m murcia_data.bronze              # carga raw en DuckDB (data/warehouse.duckdb)
+uv run dbt build --project-dir dbt --profiles-dir dbt   # capa silver: modelos y tests
 ```
 
 Para contribuir: `uv run pre-commit install` activa las mismas comprobaciones que la CI
