@@ -60,6 +60,7 @@ flowchart LR
   G --> WEB[Informe web]
   G --> DOCS[dbt docs · linaje]
   G --> REL[Release mensual<br/>Parquet + DuckDB + contrato]
+  B -. mismo dbt .-> DBX[Databricks<br/>Unity Catalog · Delta]
 ```
 
 | Capa | Dónde | Contenido |
@@ -75,6 +76,19 @@ el pipeline completo con datos reales y la publicación (`publicar.yml`).
 **Sobre la escala:** son decenas de miles de filas. Las herramientas se han elegido por las
 prácticas que permiten (tests, contratos, linaje, reproducibilidad), no por volumen, y
 funcionarían igual con muchos más datos.
+
+## Databricks
+
+El mismo proyecto dbt se ejecuta también en **Databricks** (Unity Catalog y tablas Delta),
+como segundo destino ([ADR 0005](docs/adr/0005-databricks-como-segundo-destino.md)):
+
+- DuckDB para desarrollo y CI (gratis, rápido, sin cuenta); Databricks como entorno en la
+  nube. Ningún modelo tiene dos versiones: lo poco que cambia entre motores está en macros
+  con `adapter.dispatch`.
+- Bronze se sube a un volume de Unity Catalog y un **Databricks Asset Bundle**
+  (`databricks.yml`) define el job que ejecuta `dbt build` en un SQL warehouse serverless.
+- Tras cada ejecución, un **test de paridad** compara filas y sumas de cada tabla de gold en
+  los dos motores: son idénticas.
 
 ## Modelo de datos
 
@@ -177,6 +191,8 @@ src/murcia_data/
   definitions.py grafo de Dagster: assets, comprobaciones y programación
   report/        indicadores (SQL sobre gold) y plantilla de la web
   release.py     paquete de datos para las releases
+  databricks.py  bronze a Unity Catalog y paridad de gold entre motores
+databricks.yml   Databricks Asset Bundle: job de dbt en Databricks
 dbt/
   models/        staging, intermediate y marts
   seeds/         catálogo de series del INE, territorios y excepciones documentadas
@@ -187,8 +203,8 @@ docs/adr/        decisiones de arquitectura
 
 ## Stack
 
-Python · uv · ruff · requests · DuckDB · dbt · Dagster · pytest · sqlfluff · GitHub Actions ·
-GitHub Pages · Observable Plot
+Python · uv · ruff · requests · DuckDB · dbt · Dagster · Databricks (Unity Catalog, Delta,
+Asset Bundles) · pytest · sqlfluff · GitHub Actions · GitHub Pages · Observable Plot
 
 ## Licencia
 
