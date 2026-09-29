@@ -37,10 +37,8 @@ jobs:
           restore-keys: raw-
       - name: Pipeline completo con Dagster (ingesta, bronze, silver, gold y 82 comprobaciones)
         run: uv run dagster job execute -m murcia_data.definitions -j pipeline_mensual
-      - name: Web del informe
-        run: |
-          uv run python -m murcia_data.pipeline
-          uv run python -m murcia_data.report.build_site
+      - name: Web del informe (desde gold)
+        run: uv run python -m murcia_data.report.build_site
       - name: Documentación de dbt (con el grafo de linaje)
         run: |
           uv run dbt docs generate --project-dir dbt --profiles-dir dbt --static
