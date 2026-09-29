@@ -1,0 +1,122 @@
+codigo,operacion,tabla_id,hecho,tipo_alojamiento,territorio,nivel_territorio,medida,residencia,unidad,nombre_ine
+EOT9435,EOAP,2082,demanda,apartamento,cartagena,punto,viajeros,espana,Viajeros,Nacional. Viajeros. Cartagena. Residentes en España.
+EOT9436,EOAP,2082,demanda,apartamento,cartagena,punto,viajeros,extranjero,Viajeros,Nacional. Viajeros. Cartagena. Residentes en el extranjero.
+EOT9437,EOAP,2082,demanda,apartamento,cartagena,punto,pernoctaciones,espana,Pernoctaciones,Nacional. Pernoctaciones. Cartagena. Residentes en España.
+EOT9438,EOAP,2082,demanda,apartamento,cartagena,punto,pernoctaciones,extranjero,Pernoctaciones,Nacional. Pernoctaciones. Cartagena. Residentes en el extranjero.
+EOT10097,EOAP,2063,demanda,apartamento,region-murcia,region,viajeros,espana,Viajeros,Murcia. Viajeros. Residentes en España.
+EOT10098,EOAP,2063,demanda,apartamento,region-murcia,region,viajeros,extranjero,Viajeros,Murcia. Viajeros. Residentes en el extranjero.
+EOT10099,EOAP,2063,demanda,apartamento,region-murcia,region,pernoctaciones,espana,Pernoctaciones,Murcia. Pernoctaciones. Residentes en España.
+EOT10100,EOAP,2063,demanda,apartamento,region-murcia,region,pernoctaciones,extranjero,Pernoctaciones,Murcia. Pernoctaciones. Residentes en el extranjero.
+EOT8527,EOAP,2019,demanda,apartamento,costa-calida,zona,viajeros,espana,Viajeros,Nacional. Viajeros. Murcia (Región De): Costa Cálida. Residentes en España.
+EOT8528,EOAP,2019,demanda,apartamento,costa-calida,zona,viajeros,extranjero,Viajeros,Nacional. Viajeros. Murcia (Región De): Costa Cálida. Residentes en el extranjero.
+EOT8529,EOAP,2019,demanda,apartamento,costa-calida,zona,pernoctaciones,espana,Pernoctaciones,Nacional. Pernoctaciones. Murcia (Región De): Costa Cálida. Residentes en España.
+EOT8530,EOAP,2019,demanda,apartamento,costa-calida,zona,pernoctaciones,extranjero,Pernoctaciones,Nacional. Pernoctaciones. Murcia (Región De): Costa Cálida. Residentes en el extranjero.
+EOT7771,EOAC,2084,demanda,camping,cartagena,punto,viajeros,espana,Viajeros,Nacional. Viajeros. Cartagena. Residentes en España.
+EOT7772,EOAC,2084,demanda,camping,cartagena,punto,viajeros,extranjero,Viajeros,Nacional. Viajeros. Cartagena. Residentes en el extranjero.
+EOT7773,EOAC,2084,demanda,camping,cartagena,punto,pernoctaciones,espana,Pernoctaciones,Nacional. Pernoctaciones. Cartagena. Residentes en España.
+EOT7774,EOAC,2084,demanda,camping,cartagena,punto,pernoctaciones,extranjero,Pernoctaciones,Nacional. Pernoctaciones. Cartagena. Residentes en el extranjero.
+EOT8711,EOAC,2062,demanda,camping,region-murcia,region,viajeros,espana,Viajeros,Murcia. Viajeros. Residentes en España.
+EOT8712,EOAC,2062,demanda,camping,region-murcia,region,viajeros,extranjero,Viajeros,Murcia. Viajeros. Residentes en el extranjero.
+EOT8713,EOAC,2062,demanda,camping,region-murcia,region,pernoctaciones,espana,Pernoctaciones,Murcia. Pernoctaciones. Residentes en España.
+EOT8714,EOAC,2062,demanda,camping,region-murcia,region,pernoctaciones,extranjero,Pernoctaciones,Murcia. Pernoctaciones. Residentes en el extranjero.
+EOT7555,EOAC,2047,demanda,camping,costa-calida,zona,viajeros,espana,Viajeros,Nacional. Viajeros. Murcia (Región De): Costa Cálida. Residentes en España.
+EOT7556,EOAC,2047,demanda,camping,costa-calida,zona,viajeros,extranjero,Viajeros,Nacional. Viajeros. Murcia (Región De): Costa Cálida. Residentes en el extranjero.
+EOT7557,EOAC,2047,demanda,camping,costa-calida,zona,pernoctaciones,espana,Pernoctaciones,Nacional. Pernoctaciones. Murcia (Región De): Costa Cálida. Residentes en España.
+EOT7558,EOAC,2047,demanda,camping,costa-calida,zona,pernoctaciones,extranjero,Pernoctaciones,Nacional. Pernoctaciones. Murcia (Región De): Costa Cálida. Residentes en el extranjero.
+EOT2775,EOH,2078,demanda,hotel,cartagena,punto,viajeros,espana,Viajeros,Nacional. Viajeros. Cartagena. Residentes en España.
+EOT2776,EOH,2078,demanda,hotel,cartagena,punto,viajeros,extranjero,Viajeros,Nacional. Viajeros. Cartagena. Residentes en el extranjero.
+EOT2777,EOH,2078,demanda,hotel,cartagena,punto,pernoctaciones,espana,Pernoctaciones,Nacional. Pernoctaciones. Cartagena. Residentes en España.
+EOT2778,EOH,2078,demanda,hotel,cartagena,punto,pernoctaciones,extranjero,Pernoctaciones,Nacional. Pernoctaciones. Cartagena. Residentes en el extranjero.
+EOT2779,EOH,2078,demanda,hotel,murcia-municipio,punto,viajeros,espana,Viajeros,Nacional. Viajeros. Murcia. Residentes en España.
+EOT2780,EOH,2078,demanda,hotel,murcia-municipio,punto,viajeros,extranjero,Viajeros,Nacional. Viajeros. Murcia. Residentes en el extranjero.
+EOT2781,EOH,2078,demanda,hotel,murcia-municipio,punto,pernoctaciones,espana,Pernoctaciones,Nacional. Pernoctaciones. Murcia. Residentes en España.
+EOT2782,EOH,2078,demanda,hotel,murcia-municipio,punto,pernoctaciones,extranjero,Pernoctaciones,Nacional. Pernoctaciones. Murcia. Residentes en el extranjero.
+EOT1770,EOH,2074,demanda,hotel,region-murcia,region,viajeros,espana,Viajeros,Murcia (Región de). Viajeros. Residentes en España.
+EOT1771,EOH,2074,demanda,hotel,region-murcia,region,viajeros,extranjero,Viajeros,Murcia (Región de). Viajeros. Residentes en el extranjero.
+EOT1773,EOH,2074,demanda,hotel,region-murcia,region,pernoctaciones,espana,Pernoctaciones,Murcia (Región de). Pernoctaciones. Residentes en España.
+EOT1774,EOH,2074,demanda,hotel,region-murcia,region,pernoctaciones,extranjero,Pernoctaciones,Murcia (Región de). Pernoctaciones. Residentes en el extranjero.
+EOT7703,EOH,2039,demanda,hotel,costa-calida,zona,viajeros,espana,Viajeros,Nacional. Viajeros. Murcia (Región De): Costa Cálida. Residentes en España.
+EOT7704,EOH,2039,demanda,hotel,costa-calida,zona,viajeros,extranjero,Viajeros,Nacional. Viajeros. Murcia (Región De): Costa Cálida. Residentes en el extranjero.
+EOT7705,EOH,2039,demanda,hotel,costa-calida,zona,pernoctaciones,espana,Pernoctaciones,Nacional. Pernoctaciones. Murcia (Región De): Costa Cálida. Residentes en España.
+EOT7706,EOH,2039,demanda,hotel,costa-calida,zona,pernoctaciones,extranjero,Pernoctaciones,Nacional. Pernoctaciones. Murcia (Región De): Costa Cálida. Residentes en el extranjero.
+EOT10947,EOTR,2073,demanda,rural,region-murcia,region,viajeros,espana,Viajeros,Murcia. Viajeros. Residentes en España.
+EOT10948,EOTR,2073,demanda,rural,region-murcia,region,viajeros,extranjero,Viajeros,Murcia. Viajeros. Residentes en el extranjero.
+EOT10949,EOTR,2073,demanda,rural,region-murcia,region,pernoctaciones,espana,Pernoctaciones,Murcia. Pernoctaciones. Residentes en España.
+EOT10950,EOTR,2073,demanda,rural,region-murcia,region,pernoctaciones,extranjero,Pernoctaciones,Murcia. Pernoctaciones. Residentes en el extranjero.
+EOT15406,EOAP,2083,oferta,apartamento,cartagena,punto,ocupacion_apartamentos_fin_semana,,Porcentaje,Nacional. Apartamentos turísticos. Grado de ocupación por apartamentos en fin de semana. 30016-Cartagena.
+EOT9863,EOAP,2083,oferta,apartamento,cartagena,punto,plazas,,Plazas,Nacional. Número de plazas estimadas. Cartagena.
+EOT9864,EOAP,2083,oferta,apartamento,cartagena,punto,apartamentos,,Apartamentos,Nacional. Número de apartamentos estimados. Cartagena.
+EOT9865,EOAP,2083,oferta,apartamento,cartagena,punto,ocupacion_plazas,,Porcentaje,Nacional. Grado de ocupación por plazas. Cartagena.
+EOT9866,EOAP,2083,oferta,apartamento,cartagena,punto,ocupacion_apartamentos,,Porcentaje,Nacional. Grado de ocupación por apartamentos. Cartagena.
+EOT9867,EOAP,2083,oferta,apartamento,cartagena,punto,personal_empleado,,Personas,Nacional. Personal empleado. Cartagena.
+EOT15175,EOAP,2072,oferta,apartamento,region-murcia,region,ocupacion_apartamentos_fin_semana,,Porcentaje,Apartamentos turísticos. Murcia. Grado de ocupación por apartamentos en fin de semana.
+EOT9155,EOAP,2072,oferta,apartamento,region-murcia,region,plazas,,Plazas,Murcia. Número de plazas estimadas.
+EOT9156,EOAP,2072,oferta,apartamento,region-murcia,region,apartamentos,,Apartamentos,Murcia. Número de apartamentos estimados.
+EOT9157,EOAP,2072,oferta,apartamento,region-murcia,region,ocupacion_plazas,,Porcentaje,Murcia. Grado de ocupación por plazas.
+EOT9158,EOAP,2072,oferta,apartamento,region-murcia,region,ocupacion_apartamentos,,Porcentaje,Murcia. Grado de ocupación por apartamentos.
+EOT9159,EOAP,2072,oferta,apartamento,region-murcia,region,personal_empleado,,Personas,Murcia. Personal empleado.
+EOT15014,EOAP,2022,oferta,apartamento,costa-calida,zona,ocupacion_apartamentos_fin_semana,,Porcentaje,Nacional. Apartamentos turísticos. Grado de ocupación por apartamentos en fin de semana. Murcia (Región De): Costa Cálida.
+EOT8436,EOAP,2022,oferta,apartamento,costa-calida,zona,plazas,,Plazas,Nacional. Número de plazas estimadas. Murcia (Región De): Costa Cálida.
+EOT8437,EOAP,2022,oferta,apartamento,costa-calida,zona,apartamentos,,Apartamentos,Nacional. Número de apartamentos estimados. Murcia (Región De): Costa Cálida.
+EOT8438,EOAP,2022,oferta,apartamento,costa-calida,zona,ocupacion_plazas,,Porcentaje,Nacional. Grado de ocupación por plazas. Murcia (Región De): Costa Cálida.
+EOT8439,EOAP,2022,oferta,apartamento,costa-calida,zona,ocupacion_apartamentos,,Porcentaje,Nacional. Grado de ocupación por apartamentos. Murcia (Región De): Costa Cálida.
+EOT8440,EOAP,2022,oferta,apartamento,costa-calida,zona,personal_empleado,,Personas,Nacional. Personal empleado. Murcia (Región De): Costa Cálida.
+EOT8200,EOAC,2085,oferta,camping,cartagena,punto,establecimientos,,Establecimientos,Nacional. Número de establecimientos. Cartagena.
+EOT8201,EOAC,2085,oferta,camping,cartagena,punto,plazas,,Plazas,Nacional. Número de plazas. Cartagena.
+EOT8202,EOAC,2085,oferta,camping,cartagena,punto,parcelas,,Parcelas,Nacional. Número de parcelas. Cartagena.
+EOT8203,EOAC,2085,oferta,camping,cartagena,punto,parcelas_ocupadas,,Parcelas,Nacional. Parcelas ocupadas. Cartagena.
+EOT8204,EOAC,2085,oferta,camping,cartagena,punto,ocupacion_parcelas,,Porcentaje,Nacional. Grado de ocupación por parcelas. Cartagena.
+EOT8205,EOAC,2085,oferta,camping,cartagena,punto,ocupacion_parcelas_fin_semana,,Porcentaje,Nacional. Grado de ocupación de parcelas en fin de semana. Cartagena.
+EOT8206,EOAC,2085,oferta,camping,cartagena,punto,personal_empleado,,Personas,Nacional. Personal empleado. Cartagena.
+EOT47845,EOAC,2064,oferta,camping,region-murcia,region,plazas,,Plazas,Murcia. Número de plazas estimadas. Total categorías. Dato.
+EOT47895,EOAC,2064,oferta,camping,region-murcia,region,parcelas_ocupadas,,Parcelas,Murcia. Parcelas ocupadas. Total categorías. Dato.
+EOT47945,EOAC,2064,oferta,camping,region-murcia,region,ocupacion_parcelas_fin_semana,,Porcentaje,Murcia. Grado de ocupación de parcelas en fin de semana. Total categorías. Dato.
+EOT8780,EOAC,2064,oferta,camping,region-murcia,region,establecimientos,,Establecimientos,Murcia. Número de establecimientos.
+EOT8806,EOAC,2064,oferta,camping,region-murcia,region,parcelas,,Parcelas,Murcia. Número de parcelas.
+EOT8832,EOAC,2064,oferta,camping,region-murcia,region,ocupacion_parcelas,,Porcentaje,Murcia. Grado de ocupación por parcelas.
+EOT8858,EOAC,2064,oferta,camping,region-murcia,region,personal_empleado,,Personas,Murcia. Personal empleado.
+EOT8298,EOAC,2049,oferta,camping,costa-calida,zona,establecimientos,,Establecimientos,Nacional. Número de establecimientos. Murcia (Región De): Costa Cálida.
+EOT8299,EOAC,2049,oferta,camping,costa-calida,zona,plazas,,Plazas,Nacional. Número de plazas. Murcia (Región De): Costa Cálida.
+EOT8300,EOAC,2049,oferta,camping,costa-calida,zona,parcelas,,Parcelas,Nacional. Número de parcelas. Murcia (Región De): Costa Cálida.
+EOT8301,EOAC,2049,oferta,camping,costa-calida,zona,parcelas_ocupadas,,Parcelas,Nacional. Parcelas ocupadas. Murcia (Región De): Costa Cálida.
+EOT8302,EOAC,2049,oferta,camping,costa-calida,zona,ocupacion_parcelas,,Porcentaje,Nacional. Grado de ocupación por parcelas. Murcia (Región De): Costa Cálida.
+EOT8303,EOAC,2049,oferta,camping,costa-calida,zona,ocupacion_parcelas_fin_semana,,Porcentaje,Nacional. Grado de ocupación de parcelas en fin de semana. Murcia (Región De): Costa Cálida.
+EOT8304,EOAC,2049,oferta,camping,costa-calida,zona,personal_empleado,,Personas,Nacional. Personal empleado. Murcia (Región De): Costa Cálida.
+EOT11626,EOH,2076,oferta,hotel,cartagena,punto,ocupacion_plazas_fin_semana,,Porcentaje,Nacional. Grado de ocupación por plazas en fin de semana. 30016-Cartagena.
+EOT11627,EOH,2076,oferta,hotel,murcia-municipio,punto,ocupacion_plazas_fin_semana,,Porcentaje,Nacional. Grado de ocupación por plazas en fin de semana. 30030-Murcia.
+EOT24604,EOH,2076,oferta,hotel,murcia-municipio,punto,habitaciones,,Habitaciones,Murcia. Número de habitaciones estimadas. Total categorías. Dato.
+EOT24605,EOH,2076,oferta,hotel,cartagena,punto,habitaciones,,Habitaciones,Cartagena. Número de habitaciones estimadas. Total categorías. Dato.
+EOT3012,EOH,2076,oferta,hotel,cartagena,punto,establecimientos,,Establecimientos,Nacional. Número de establecimientos abiertos estimados. Cartagena.
+EOT3013,EOH,2076,oferta,hotel,murcia-municipio,punto,establecimientos,,Establecimientos,Nacional. Número de establecimientos abiertos estimados. Murcia.
+EOT3084,EOH,2076,oferta,hotel,cartagena,punto,plazas,,Plazas,Nacional. Número de plazas estimadas. Cartagena.
+EOT3085,EOH,2076,oferta,hotel,murcia-municipio,punto,plazas,,Plazas,Nacional. Número de plazas estimadas. Murcia.
+EOT3156,EOH,2076,oferta,hotel,cartagena,punto,ocupacion_plazas,,Porcentaje,Nacional. Grado de ocupación por plazas. Cartagena.
+EOT3157,EOH,2076,oferta,hotel,murcia-municipio,punto,ocupacion_plazas,,Porcentaje,Nacional. Grado de ocupación por plazas. Murcia.
+EOT3228,EOH,2076,oferta,hotel,cartagena,punto,ocupacion_habitaciones,,Porcentaje,Nacional. Grado de ocupación por habitaciones. Cartagena.
+EOT3229,EOH,2076,oferta,hotel,murcia-municipio,punto,ocupacion_habitaciones,,Porcentaje,Nacional. Grado de ocupación por habitaciones. Murcia.
+EOT3300,EOH,2076,oferta,hotel,cartagena,punto,personal_empleado,,Personas,Nacional. Personal empleado. Cartagena.
+EOT3301,EOH,2076,oferta,hotel,murcia-municipio,punto,personal_empleado,,Personas,Nacional. Personal empleado. Murcia.
+EOT24507,EOH,2066,oferta,hotel,region-murcia,region,habitaciones,,Habitaciones,"Murcia, Región de. Número de habitaciones estimadas. Total categorías. Dato."
+EOT379,EOH,2066,oferta,hotel,region-murcia,region,establecimientos,,Establecimientos,Murcia (Región de). Número de establecimientos abiertos estimados.
+EOT380,EOH,2066,oferta,hotel,region-murcia,region,plazas,,Plazas,Murcia (Región de). Número de plazas estimadas.
+EOT381,EOH,2066,oferta,hotel,region-murcia,region,ocupacion_plazas,,Porcentaje,Murcia (Región de). Grado de ocupación por plazas.
+EOT382,EOH,2066,oferta,hotel,region-murcia,region,ocupacion_plazas_fin_semana,,Porcentaje,Murcia (Región de). Grado de ocupación por plazas en fin de semana.
+EOT383,EOH,2066,oferta,hotel,region-murcia,region,ocupacion_habitaciones,,Porcentaje,Murcia (Región de). Grado de ocupación por habitaciones.
+EOT384,EOH,2066,oferta,hotel,region-murcia,region,personal_empleado,,Personas,Murcia (Región de). Personal empleado.
+EOT11688,EOH,2013,oferta,hotel,costa-calida,zona,ocupacion_plazas_fin_semana,,Porcentaje,Nacional. Grado de ocupación por plazas en fin de semana. Murcia (Región De): Costa Cálida.
+EOT24528,EOH,2013,oferta,hotel,costa-calida,zona,habitaciones,,Habitaciones,Murcia (Región De): Costa Cálida. Número de habitaciones estimadas. Total categorías. Dato.
+EOT588,EOH,2013,oferta,hotel,costa-calida,zona,establecimientos,,Establecimientos,Nacional. Número de establecimientos abiertos estimados. Murcia (Región De): Costa Cálida.
+EOT589,EOH,2013,oferta,hotel,costa-calida,zona,plazas,,Plazas,Nacional. Número de plazas estimadas. Murcia (Región De): Costa Cálida.
+EOT590,EOH,2013,oferta,hotel,costa-calida,zona,ocupacion_plazas,,Porcentaje,Nacional. Grado de ocupación por plazas. Murcia (Región De): Costa Cálida.
+EOT591,EOH,2013,oferta,hotel,costa-calida,zona,ocupacion_habitaciones,,Porcentaje,Nacional. Grado de ocupación por habitaciones. Murcia (Región De): Costa Cálida.
+EOT592,EOH,2013,oferta,hotel,costa-calida,zona,personal_empleado,,Personas,Nacional. Personal empleado. Murcia (Región De): Costa Cálida.
+EOT11275,EOTR,2070,oferta,rural,region-murcia,region,establecimientos,,Establecimientos,Murcia. Número de establecimientos abiertos estimados.
+EOT11276,EOTR,2070,oferta,rural,region-murcia,region,plazas,,Plazas,Murcia. Número de plazas estimadas.
+EOT11277,EOTR,2070,oferta,rural,region-murcia,region,ocupacion_plazas,,Porcentaje,Murcia. Grado de ocupación por plazas.
+EOT11278,EOTR,2070,oferta,rural,region-murcia,region,ocupacion_plazas_fin_semana,,Porcentaje,Murcia. Grado de ocupación por plazas en fin de semana.
+EOT11279,EOTR,2070,oferta,rural,region-murcia,region,ocupacion_habitaciones,,Porcentaje,Murcia. Grado de ocupación por habitaciones.
+EOT11280,EOTR,2070,oferta,rural,region-murcia,region,personal_empleado,,Personas,Murcia. Personal empleado.
+EOT14624,IPH,12156,precios,hotel,espana,pais,indice_precios,,Índice,Indice de precios hoteleros (Base 2008). Nacional. Dato base.
+EOT14625,IPH,12156,precios,hotel,espana,pais,variacion_interanual_precios,,Tasas,Indice de precios hoteleros (Base 2008). Nacional. Tasa de variación interanual.
+EOT14652,IPH,12156,precios,hotel,region-murcia,region,indice_precios,,Índice,Indice de precios hoteleros (Base 2008). Murcia (Región de). Dato base.
+EOT14653,IPH,12156,precios,hotel,region-murcia,region,variacion_interanual_precios,,Tasas,Indice de precios hoteleros (Base 2008). Murcia (Región de). Tasa de variación interanual.

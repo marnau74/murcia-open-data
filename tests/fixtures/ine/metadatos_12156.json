@@ -1,0 +1,166 @@
+[
+ {
+  "COD": "EOT14624",
+  "Nombre": "Indice de precios hoteleros (Base 2008). Nacional. Dato base.",
+  "T3_Unidad": "Índice",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 16473,
+    "T3_Variable": "Totales Territoriales",
+    "Nombre": "Total Nacional",
+    "Codigo": "00"
+   },
+   {
+    "Id": 284347,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Índice de precios",
+    "Codigo": ""
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 83,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Índice",
+    "Codigo": "2"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 182.89
+   }
+  ]
+ },
+ {
+  "COD": "EOT14625",
+  "Nombre": "Indice de precios hoteleros (Base 2008). Nacional. Tasa de variación interanual.",
+  "T3_Unidad": "Tasas",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 16473,
+    "T3_Variable": "Totales Territoriales",
+    "Nombre": "Total Nacional",
+    "Codigo": "00"
+   },
+   {
+    "Id": 284347,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Índice de precios",
+    "Codigo": ""
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 76,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Tasa de variación interanual",
+    "Codigo": "1"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 6.34
+   }
+  ]
+ },
+ {
+  "COD": "EOT14652",
+  "Nombre": "Indice de precios hoteleros (Base 2008). Murcia (Región de). Dato base.",
+  "T3_Unidad": "Índice",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 9010,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Murcia, Región de",
+    "Codigo": "14"
+   },
+   {
+    "Id": 284347,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Índice de precios",
+    "Codigo": ""
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 83,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Índice",
+    "Codigo": "2"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 134.6
+   }
+  ]
+ },
+ {
+  "COD": "EOT14653",
+  "Nombre": "Indice de precios hoteleros (Base 2008). Murcia (Región de). Tasa de variación interanual.",
+  "T3_Unidad": "Tasas",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 9010,
+    "T3_Variable": "Comunidades y Ciudades Autónomas",
+    "Nombre": "Murcia, Región de",
+    "Codigo": "14"
+   },
+   {
+    "Id": 284347,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Índice de precios",
+    "Codigo": ""
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 76,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Tasa de variación interanual",
+    "Codigo": "1"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 5.14
+   }
+  ]
+ }
+]
