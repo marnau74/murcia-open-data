@@ -108,5 +108,6 @@ jobs:
             gh release upload "$etiqueta" release/* --clobber
             gh release edit "$etiqueta" --notes-file notas.md
           else
-            gh release create "$etiqueta" release/* --title "Datos ${hasta}" --notes-file notas.md
+            # --latest=false: la release destacada del repositorio es la del código (vX.Y.Z)
+            gh release create "$etiqueta" release/* --title "Datos ${hasta}" --notes-file notas.md --latest=false
           fi
