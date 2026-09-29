@@ -1,0 +1,18 @@
+destino,zona,tipo_fila
+Murcia Ciudad,ciudad,destino
+Cartagena,ciudad,destino
+Lorca / Puerto Lumbreras,ciudad,destino
+La Manga,costa,destino
+Resto Mar Menor,costa,destino
+Mazarrón,costa,destino
+Águilas,costa,destino
+Noroeste,interior,destino
+V.Ricote / Balnearios,interior,destino
+Centro,interior,destino
+Altiplano / Este,interior,destino
+Subtotal La Manga + Resto Mar Menor,costa,subtotal
+Subtotal Águilas + Mazarrón,costa,subtotal
+Total Ciudad,ciudad,total_zona
+Total Costa,costa,total_zona
+Total Interior,interior,total_zona
+Totales,,total_region
