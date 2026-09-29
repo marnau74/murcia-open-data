@@ -1,0 +1,109 @@
+version: 2
+
+models:
+  - name: int_mt__meses_publicados
+    description: Meses que murciaturistica ha publicado (los no publicados vienen enteros a 0).
+    columns:
+      - name: fecha
+        data_tests: [unique, not_null]
+
+  - name: int_mt__filas_clasificadas
+    description: Filas publicadas con su zona y tipo, solo en meses publicados.
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha, destino]}
+
+  - name: int_mt__residual_por_zona
+    description: Lo que la fuente incluye en el total de una zona pero no desglosa por destino.
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha, zona]}
+    columns:
+      - name: pernoctaciones_residentes
+        data_tests: [no_negativo]
+      - name: pernoctaciones_no_residentes
+        data_tests: [no_negativo]
+
+  - name: int_mt__ocupacion_destino
+    description: >
+      Ocupación hotelera por destino y mes (11 destinos oficiales + un «no desglosado»
+      por zona). Equivale a la tabla de hechos de la v1.
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha, destino]}
+    columns:
+      - name: zona
+        data_tests:
+          - accepted_values:
+              arguments: {values: [ciudad, costa, interior]}
+      - name: viajeros_residentes
+        data_tests: [not_null, no_negativo]
+      - name: viajeros_no_residentes
+        data_tests: [not_null, no_negativo]
+      - name: pernoctaciones_residentes
+        data_tests: [not_null, no_negativo]
+      - name: pernoctaciones_no_residentes
+        data_tests: [not_null, no_negativo]
+
+  - name: int_ine__observaciones
+    description: Observaciones del INE con territorio, alojamiento, medida y residencia del catálogo.
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha, hecho, tipo_alojamiento, territorio, medida, residencia]}
+    columns:
+      - name: valor
+        data_tests:
+          - no_negativo:
+              config:
+                where: "medida <> 'variacion_interanual_precios'"
+
+unit_tests:
+  - name: residual_recupera_lo_que_la_fuente_no_desglosa
+    description: >
+      Caso real de diciembre de 2019: los destinos de costa salen a 0 por secreto
+      estadístico, pero el total de zona trae el dato.
+    model: int_mt__residual_por_zona
+    given:
+      - input: ref('int_mt__filas_clasificadas')
+        rows:
+          - {fecha: 2019-12-01, zona: costa, tipo_fila: destino, viajeros_residentes: 0, viajeros_no_residentes: 0, pernoctaciones_residentes: 0, pernoctaciones_no_residentes: 0}
+          - {fecha: 2019-12-01, zona: costa, tipo_fila: destino, viajeros_residentes: 0, viajeros_no_residentes: 0, pernoctaciones_residentes: 0, pernoctaciones_no_residentes: 0}
+          - {fecha: 2019-12-01, zona: costa, tipo_fila: total_zona, viajeros_residentes: 5000, viajeros_no_residentes: 1200, pernoctaciones_residentes: 24000, pernoctaciones_no_residentes: 8178}
+    expect:
+      rows:
+        - {fecha: 2019-12-01, zona: costa, viajeros_residentes: 5000, viajeros_no_residentes: 1200, pernoctaciones_residentes: 24000, pernoctaciones_no_residentes: 8178}
+
+  - name: residual_no_se_inventa_cuando_la_zona_cuadra
+    model: int_mt__residual_por_zona
+    given:
+      - input: ref('int_mt__filas_clasificadas')
+        rows:
+          - {fecha: 2019-07-01, zona: ciudad, tipo_fila: destino, viajeros_residentes: 100, viajeros_no_residentes: 10, pernoctaciones_residentes: 200, pernoctaciones_no_residentes: 20}
+          - {fecha: 2019-07-01, zona: ciudad, tipo_fila: destino, viajeros_residentes: 70, viajeros_no_residentes: 7, pernoctaciones_residentes: 110, pernoctaciones_no_residentes: 11}
+          - {fecha: 2019-07-01, zona: ciudad, tipo_fila: total_zona, viajeros_residentes: 170, viajeros_no_residentes: 17, pernoctaciones_residentes: 310, pernoctaciones_no_residentes: 31}
+    expect:
+      rows: []
+
+  - name: residual_nunca_es_negativo
+    description: Si la suma de destinos supera el total (error de la fuente), no se resta nada.
+    model: int_mt__residual_por_zona
+    given:
+      - input: ref('int_mt__filas_clasificadas')
+        rows:
+          - {fecha: 2019-07-01, zona: interior, tipo_fila: destino, viajeros_residentes: 120, viajeros_no_residentes: 0, pernoctaciones_residentes: 300, pernoctaciones_no_residentes: 5}
+          - {fecha: 2019-07-01, zona: interior, tipo_fila: total_zona, viajeros_residentes: 100, viajeros_no_residentes: 0, pernoctaciones_residentes: 300, pernoctaciones_no_residentes: 10}
+    expect:
+      rows:
+        - {fecha: 2019-07-01, zona: interior, viajeros_residentes: 0, viajeros_no_residentes: 0, pernoctaciones_residentes: 0, pernoctaciones_no_residentes: 5}
+
+  - name: meses_enteros_a_cero_no_estan_publicados
+    model: int_mt__meses_publicados
+    given:
+      - input: ref('stg_mt__destinos')
+        rows:
+          - {fecha: 2020-04-01, viajeros_residentes: 0, viajeros_no_residentes: 0, pernoctaciones_residentes: 0, pernoctaciones_no_residentes: 0}
+          - {fecha: 2020-07-01, viajeros_residentes: 0, viajeros_no_residentes: 0, pernoctaciones_residentes: 0, pernoctaciones_no_residentes: 0}
+          - {fecha: 2020-07-01, viajeros_residentes: 100, viajeros_no_residentes: 10, pernoctaciones_residentes: 200, pernoctaciones_no_residentes: 20}
+    expect:
+      rows:
+        - {fecha: 2020-07-01}
