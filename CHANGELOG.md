@@ -11,6 +11,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 - La CI comprueba lint y formato con ruff antes de los tests.
 
 ### Añadido
+- Publicación en dos workflows: `ci.yml` (calidad en cada cambio, sin red) y
+  `publicar.yml` (pipeline completo con Dagster, web, documentación de dbt con el grafo
+  de linaje en `/docs/` y release mensual de datos).
+- Release de datos `datos-AAAA-MM` (`murcia_data.release`): gold en Parquet y DuckDB, con
+  `contrato.json` versionado y `SHA256SUMS`.
+- Control de privacidad en pre-commit y en la CI: falla si algún fichero contiene rutas de
+  un equipo personal o correos personales.
 - Orquestación con Dagster (`murcia_data.definitions`): ingesta, bronze y modelos de dbt
   en un único grafo de *assets* con linaje de punta a punta; los tests de dbt se
   registran como comprobaciones, más dos propias sobre bronze (catálogo completo,
