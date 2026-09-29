@@ -25,6 +25,7 @@ Este módulo trabaja sobre DataFrames de pandas. Las funciones son puras
 (entra DataFrame crudo, sale DataFrame de dimensión/hechos) para que cada
 una tenga su test en tests/.
 """
+
 from __future__ import annotations
 
 import pandas as pd
@@ -61,8 +62,18 @@ MEDIDAS = [
 ]
 
 MESES_ES = {
-    1: "enero", 2: "febrero", 3: "marzo", 4: "abril", 5: "mayo", 6: "junio",
-    7: "julio", 8: "agosto", 9: "septiembre", 10: "octubre", 11: "noviembre", 12: "diciembre",
+    1: "enero",
+    2: "febrero",
+    3: "marzo",
+    4: "abril",
+    5: "mayo",
+    6: "junio",
+    7: "julio",
+    8: "agosto",
+    9: "septiembre",
+    10: "octubre",
+    11: "noviembre",
+    12: "diciembre",
 }
 
 

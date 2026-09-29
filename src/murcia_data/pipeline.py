@@ -1,9 +1,10 @@
 """Punto de entrada del pipeline: ingesta -> transformación -> validación -> guardado.
 
 Fuente: viajeros y pernoctaciones por destino turístico (murciaturistica.es),
-ver src/ingest/murciaturistica_client.py para el porqué de esta fuente y las
+ver murcia_data/ingest/murciaturistica_client.py para el porqué de esta fuente y las
 particularidades del endpoint.
 """
+
 from __future__ import annotations
 
 from datetime import date
@@ -11,21 +12,21 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.ingest.murciaturistica_client import MurciaturisticaClient
-from src.transform.star_schema import (
+from murcia_data.ingest.murciaturistica_client import MurciaturisticaClient
+from murcia_data.quality.checks import (
+    cuadra_con_totales_publicados,
+    integridad_referencial,
+    rango_valido,
+    sin_duplicados,
+    sin_nulos_en_claves,
+)
+from murcia_data.transform.star_schema import (
     MEDIDAS,
     TOTAL_POR_ZONA,
     construir_dim_destino,
     construir_dim_fecha,
     construir_fact_ocupacion,
     descartar_meses_sin_publicar,
-)
-from src.quality.checks import (
-    cuadra_con_totales_publicados,
-    integridad_referencial,
-    rango_valido,
-    sin_duplicados,
-    sin_nulos_en_claves,
 )
 
 PROCESSED = Path("data/processed")

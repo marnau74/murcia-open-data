@@ -27,6 +27,7 @@ no documentados en ninguna API):
     se devuelve tal cual la publica la fuente, incluidos subtotales y filas
     en blanco; el filtrado a destinos-hoja se hace en la capa de transform.
 """
+
 from __future__ import annotations
 
 import io
