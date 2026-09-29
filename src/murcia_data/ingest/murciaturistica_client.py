@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import io
 import time
+from datetime import date
 from pathlib import Path
 
 import pandas as pd
@@ -51,6 +52,16 @@ COLUMNAS = [
     "pernoctaciones_residentes",
     "pernoctaciones_no_residentes",
 ]
+
+
+INICIO_SERIE = (2015, 1)
+
+
+def mes_anterior(hoy: date) -> tuple[int, int]:
+    """Último mes que se pide a la fuente: el anterior al actual. Los meses que aún no se
+    han publicado vuelven enteros a 0 y se descartan después, así que pedir de más no
+    falsea nada y permite recoger datos nuevos en cuanto aparecen."""
+    return (hoy.year, hoy.month - 1) if hoy.month > 1 else (hoy.year - 1, 12)
 
 
 def parsear_tabla(contenido: bytes, anio: int, mes: int) -> pd.DataFrame:
