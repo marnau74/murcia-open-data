@@ -16,3 +16,10 @@ site/
 # Warehouse local (se regenera con el pipeline)
 data/*.duckdb
 data/*.duckdb.wal
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+logs/
+dbt/.user.yml
