@@ -1,0 +1,244 @@
+version: 2
+
+# Capa gold: lo único que consumen la web, las releases de datos y la API. Cada modelo
+# tiene contrato: si una columna cambia de nombre o de tipo, dbt falla antes de crearlo.
+
+models:
+  # --- Dimensiones -------------------------------------------------------------------
+
+  - name: dim_fecha
+    description: Calendario mensual continuo que cubre todas las fuentes.
+    config:
+      contract: {enforced: true}
+    columns:
+      - name: fecha_id
+        description: Año y mes como entero AAAAMM (clave de las tablas de hechos).
+        data_type: integer
+        constraints: [{type: not_null}]
+        data_tests: [unique]
+      - name: fecha
+        description: Primer día del mes.
+        data_type: date
+        constraints: [{type: not_null}]
+      - name: anio
+        data_type: smallint
+      - name: mes
+        data_type: smallint
+      - name: trimestre
+        data_type: smallint
+      - name: nombre_mes
+        data_type: varchar
+
+  - name: dim_territorio
+    description: >
+      Territorios del INE (España, región, zona turística, municipios) y de
+      murciaturistica (zonas y destinos), en una jerarquía explícita. No se suman
+      territorios de niveles o fuentes distintos.
+    config:
+      contract: {enforced: true}
+    columns:
+      - name: territorio_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests: [unique]
+      - name: nombre
+        data_type: varchar
+      - name: nivel
+        description: pais, region, zona_ine, punto_ine, zona_mt o destino_mt.
+        data_type: varchar
+        data_tests:
+          - accepted_values:
+              arguments: {values: [pais, region, zona_ine, punto_ine, zona_mt, destino_mt]}
+      - name: padre_id
+        data_type: varchar
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_territorio'), field: territorio_id}
+      - name: fuente
+        data_type: varchar
+      - name: es_desglosado
+        description: Falso en los destinos «(no desglosado)» que recogen el secreto estadístico.
+        data_type: boolean
+
+  - name: dim_tipo_alojamiento
+    config:
+      contract: {enforced: true}
+    columns:
+      - name: tipo_alojamiento_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests: [unique]
+      - name: nombre
+        data_type: varchar
+      - name: encuesta_ine
+        data_type: varchar
+
+  - name: dim_residencia
+    config:
+      contract: {enforced: true}
+    columns:
+      - name: residencia_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests: [unique]
+      - name: nombre
+        data_type: varchar
+
+  # --- Hechos ------------------------------------------------------------------------
+
+  - name: fct_demanda_mensual
+    description: >
+      Viajeros y pernoctaciones. Grano: mes × territorio × tipo de alojamiento ×
+      residencia. INE para región, Costa Cálida y municipios; murciaturistica para los
+      destinos turísticos (hoteles).
+    config:
+      contract: {enforced: true}
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha_id, territorio_id, tipo_alojamiento_id, residencia_id]}
+    columns:
+      - name: fecha_id
+        data_type: integer
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_fecha'), field: fecha_id}
+      - name: territorio_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_territorio'), field: territorio_id}
+      - name: tipo_alojamiento_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_tipo_alojamiento'), field: tipo_alojamiento_id}
+      - name: residencia_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_residencia'), field: residencia_id}
+      - name: viajeros
+        description: NULL si el dato está bajo secreto estadístico.
+        data_type: bigint
+        data_tests: [no_negativo]
+      - name: pernoctaciones
+        description: NULL si el dato está bajo secreto estadístico.
+        data_type: bigint
+        data_tests: [no_negativo]
+      - name: es_provisional
+        description: El INE aún puede revisar el dato.
+        data_type: boolean
+      - name: tiene_secreto
+        description: Alguna de las medidas de la fila está bajo secreto estadístico.
+        data_type: boolean
+      - name: fuente
+        data_type: varchar
+        data_tests:
+          - accepted_values:
+              arguments: {values: [INE, murciaturistica]}
+
+  - name: fct_oferta_mensual
+    description: >
+      Establecimientos, plazas, empleo y grados de ocupación (%). Grano: mes × territorio
+      × tipo de alojamiento. Las medidas que no publica un tipo quedan en NULL.
+    config:
+      contract: {enforced: true}
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha_id, territorio_id, tipo_alojamiento_id]}
+    columns:
+      - name: fecha_id
+        data_type: integer
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_fecha'), field: fecha_id}
+      - name: territorio_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_territorio'), field: territorio_id}
+      - name: tipo_alojamiento_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_tipo_alojamiento'), field: tipo_alojamiento_id}
+      - {name: establecimientos, data_type: bigint, data_tests: [no_negativo]}
+      - {name: plazas, data_type: bigint, data_tests: [no_negativo]}
+      - {name: habitaciones, data_type: bigint, data_tests: [no_negativo]}
+      - {name: apartamentos, data_type: bigint, data_tests: [no_negativo]}
+      - {name: parcelas, data_type: bigint, data_tests: [no_negativo]}
+      - {name: parcelas_ocupadas, data_type: bigint, data_tests: [no_negativo]}
+      - {name: personal_empleado, data_type: bigint, data_tests: [no_negativo]}
+      - {name: ocupacion_plazas, data_type: double, data_tests: [porcentaje]}
+      - {name: ocupacion_plazas_fin_semana, data_type: double, data_tests: [porcentaje]}
+      - {name: ocupacion_habitaciones, data_type: double, data_tests: [porcentaje]}
+      - {name: ocupacion_apartamentos, data_type: double, data_tests: [porcentaje]}
+      - {name: ocupacion_apartamentos_fin_semana, data_type: double, data_tests: [porcentaje]}
+      - {name: ocupacion_parcelas, data_type: double, data_tests: [porcentaje]}
+      - {name: ocupacion_parcelas_fin_semana, data_type: double, data_tests: [porcentaje]}
+      - {name: es_provisional, data_type: boolean}
+      - {name: tiene_secreto, data_type: boolean}
+      - {name: fuente, data_type: varchar}
+
+  - name: fct_precios_mensual
+    description: >
+      Índice de precios hoteleros (base 2008) y variación interanual (%). Grano: mes ×
+      territorio × tipo de alojamiento. Región de Murcia y total de España.
+    config:
+      contract: {enforced: true}
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha_id, territorio_id, tipo_alojamiento_id]}
+    columns:
+      - name: fecha_id
+        data_type: integer
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_fecha'), field: fecha_id}
+      - name: territorio_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_territorio'), field: territorio_id}
+      - name: tipo_alojamiento_id
+        data_type: varchar
+        constraints: [{type: not_null}]
+      - {name: indice_precios, data_type: double, data_tests: [no_negativo]}
+      - {name: variacion_interanual, description: Variación respecto al mismo mes del año anterior (%)., data_type: double}
+      - {name: es_provisional, data_type: boolean}
+      - {name: fuente, data_type: varchar}
+
+unit_tests:
+  - name: demanda_une_las_fuentes_y_separa_la_residencia
+    description: >
+      El INE entra por residencia tal cual; murciaturistica se desdobla en residentes
+      (España) y no residentes (extranjero), con el destino traducido a su territorio.
+      Un mes sin ninguna medida publicada no genera fila.
+    model: fct_demanda_mensual
+    given:
+      - input: ref('int_ine__observaciones')
+        rows:
+          - {fecha: 2024-08-01, hecho: demanda, territorio: region-murcia, tipo_alojamiento: camping, residencia: espana, medida: viajeros, valor: 100, es_provisional: false, es_secreto: false}
+          - {fecha: 2024-08-01, hecho: demanda, territorio: region-murcia, tipo_alojamiento: camping, residencia: espana, medida: pernoctaciones, valor: 400, es_provisional: false, es_secreto: false}
+          - {fecha: 2024-08-01, hecho: demanda, territorio: costa-calida, tipo_alojamiento: rural, residencia: extranjero, medida: viajeros, valor: null, es_provisional: true, es_secreto: true}
+          - {fecha: 2024-08-01, hecho: demanda, territorio: costa-calida, tipo_alojamiento: rural, residencia: extranjero, medida: pernoctaciones, valor: null, es_provisional: true, es_secreto: true}
+      - input: ref('int_mt__ocupacion_destino')
+        rows:
+          - {fecha: 2019-07-01, destino: La Manga, viajeros_residentes: 21262, viajeros_no_residentes: 4788, pernoctaciones_residentes: 90856, pernoctaciones_no_residentes: 26407}
+      - input: ref('territorios')
+        rows:
+          - {territorio_id: destino-la-manga, fuente: murciaturistica, nombre_en_fuente: La Manga}
+    expect:
+      rows:
+        - {fecha_id: 202408, territorio_id: region-murcia, tipo_alojamiento_id: camping, residencia_id: espana, viajeros: 100, pernoctaciones: 400, fuente: INE}
+        - {fecha_id: 201907, territorio_id: destino-la-manga, tipo_alojamiento_id: hotel, residencia_id: espana, viajeros: 21262, pernoctaciones: 90856, fuente: murciaturistica}
+        - {fecha_id: 201907, territorio_id: destino-la-manga, tipo_alojamiento_id: hotel, residencia_id: extranjero, viajeros: 4788, pernoctaciones: 26407, fuente: murciaturistica}

@@ -1,0 +1,23 @@
+territorio_id,nombre,nivel,padre_id,fuente,nombre_en_fuente
+espana,España,pais,,INE,
+region-murcia,Región de Murcia,region,espana,INE,
+costa-calida,Costa Cálida,zona_ine,region-murcia,INE,
+cartagena,Cartagena (municipio),punto_ine,region-murcia,INE,
+murcia-municipio,Murcia (municipio),punto_ine,region-murcia,INE,
+zona-ciudad,Ciudad,zona_mt,region-murcia,murciaturistica,Total Ciudad
+zona-costa,Costa,zona_mt,region-murcia,murciaturistica,Total Costa
+zona-interior,Interior,zona_mt,region-murcia,murciaturistica,Total Interior
+destino-murcia-ciudad,Murcia Ciudad,destino_mt,zona-ciudad,murciaturistica,Murcia Ciudad
+destino-cartagena,Cartagena,destino_mt,zona-ciudad,murciaturistica,Cartagena
+destino-lorca-puerto-lumbreras,Lorca / Puerto Lumbreras,destino_mt,zona-ciudad,murciaturistica,Lorca / Puerto Lumbreras
+destino-ciudad-no-desglosado,Ciudad (no desglosado),destino_mt,zona-ciudad,murciaturistica,Ciudad (no desglosado)
+destino-la-manga,La Manga,destino_mt,zona-costa,murciaturistica,La Manga
+destino-resto-mar-menor,Resto Mar Menor,destino_mt,zona-costa,murciaturistica,Resto Mar Menor
+destino-mazarron,Mazarrón,destino_mt,zona-costa,murciaturistica,Mazarrón
+destino-aguilas,Águilas,destino_mt,zona-costa,murciaturistica,Águilas
+destino-costa-no-desglosado,Costa (no desglosado),destino_mt,zona-costa,murciaturistica,Costa (no desglosado)
+destino-noroeste,Noroeste,destino_mt,zona-interior,murciaturistica,Noroeste
+destino-valle-ricote-balnearios,Valle de Ricote / Balnearios,destino_mt,zona-interior,murciaturistica,V.Ricote / Balnearios
+destino-centro,Centro,destino_mt,zona-interior,murciaturistica,Centro
+destino-altiplano-este,Altiplano / Este,destino_mt,zona-interior,murciaturistica,Altiplano / Este
+destino-interior-no-desglosado,Interior (no desglosado),destino_mt,zona-interior,murciaturistica,Interior (no desglosado)
