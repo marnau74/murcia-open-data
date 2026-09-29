@@ -6,6 +6,7 @@ Criterio común: las comparaciones entre meses se hacen solo con años
 completos (los 12 meses publicados). 2020 tiene cinco meses sin publicar y
 metido en una media arrastraría el perfil estacional hacia julio-noviembre.
 """
+
 from __future__ import annotations
 
 import pandas as pd

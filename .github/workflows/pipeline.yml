@@ -12,31 +12,35 @@ permissions:
   contents: read
 
 jobs:
-  tests:
+  calidad:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: astral-sh/setup-uv@v10.2.0
         with:
           python-version: "3.12"
-          cache: pip
+          enable-cache: true
       - name: Instalar dependencias
-        run: pip install -r requirements.txt
+        run: uv sync --frozen
+      - name: Lint y formato
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
       - name: Tests
-        run: pytest -q
+        run: uv run pytest
 
   pipeline:
-    needs: tests
+    needs: calidad
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: astral-sh/setup-uv@v10.2.0
         with:
           python-version: "3.12"
-          cache: pip
+          enable-cache: true
       - name: Instalar dependencias
-        run: pip install -r requirements.txt
+        run: uv sync --frozen
       # Caché de las descargas mensuales: cada ejecución solo pide a la fuente
       # los meses que aún no tiene (los meses sin publicar nunca se cachean).
       - uses: actions/cache@v6
@@ -45,9 +49,9 @@ jobs:
           key: raw-${{ github.run_id }}
           restore-keys: raw-
       - name: Ejecutar pipeline (ingesta, transformación y validación)
-        run: python -m src.pipeline
+        run: uv run python -m murcia_data.pipeline
       - name: Generar la web del informe
-        run: python -m src.report.build_site
+        run: uv run python -m murcia_data.report.build_site
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

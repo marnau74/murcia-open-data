@@ -3,10 +3,11 @@ estrella en data/processed/. La publica GitHub Pages desde el workflow.
 
 La página es una plantilla HTML con los datos incrustados como JSON: no hay
 servidor ni base de datos, y cualquier cifra que aparece en ella sale de
-src/report/indicadores.py.
+murcia_data/report/indicadores.py.
 
-Uso: python -m src.report.build_site
+Uso: python -m murcia_data.report.build_site
 """
+
 from __future__ import annotations
 
 import json
@@ -15,7 +16,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.report.indicadores import (
+from murcia_data.report.indicadores import (
     anios_completos,
     efecto_no_desglosado,
     indice_anual,

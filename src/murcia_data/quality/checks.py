@@ -2,6 +2,7 @@
 y desde los tests. Cada función lanza AssertionError con un mensaje claro
 si el dato no cumple, para que falle visible en CI.
 """
+
 from __future__ import annotations
 
 import pandas as pd
@@ -48,9 +49,7 @@ def cuadra_con_totales_publicados(
     en 45 meses, sobre todo de invierno, que exageraban su estacionalidad).
     """
     sumado = (
-        hechos.merge(dim_destino[["destino_id", "zona"]], on="destino_id")
-        .groupby(["fecha_id", "zona"])[medidas]
-        .sum()
+        hechos.merge(dim_destino[["destino_id", "zona"]], on="destino_id").groupby(["fecha_id", "zona"])[medidas].sum()
     )
     esperado = totales_publicados.set_index(["fecha_id", "zona"])[medidas]
     descuadre = (sumado - esperado).abs() > 0.5

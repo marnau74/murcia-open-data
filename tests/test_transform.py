@@ -1,21 +1,22 @@
 """Tests de las funciones de transformación y de las comprobaciones de calidad."""
+
 import numpy as np
 import pandas as pd
 import pytest
 
-from src.transform.star_schema import (
+from murcia_data.quality.checks import (
+    cuadra_con_totales_publicados,
+    integridad_referencial,
+    rango_valido,
+    sin_duplicados,
+    sin_nulos_en_claves,
+)
+from murcia_data.transform.star_schema import (
     MEDIDAS,
     construir_dim_destino,
     construir_dim_fecha,
     construir_fact_ocupacion,
     descartar_meses_sin_publicar,
-)
-from src.quality.checks import (
-    cuadra_con_totales_publicados,
-    sin_nulos_en_claves,
-    sin_duplicados,
-    integridad_referencial,
-    rango_valido,
 )
 
 
@@ -62,7 +63,7 @@ def test_dim_fecha_una_fila_por_mes(datos_crudos):
 
 def test_dim_destino_clasifica_ciudad_costa_interior():
     dim = construir_dim_destino()
-    zonas = dict(zip(dim["nombre"], dim["zona"]))
+    zonas = dict(zip(dim["nombre"], dim["zona"], strict=True))
     assert zonas["Murcia Ciudad"] == "ciudad"
     assert zonas["Cartagena"] == "ciudad"  # clasificación oficial: no es "costa"
     assert zonas["La Manga"] == "costa"
@@ -169,12 +170,8 @@ def test_cuadra_con_totales_publicados_detecta_zona_incompleta():
     validación tiene que cazarlo (es el bug que motivó el residual)."""
     dim_destino = construir_dim_destino()
     id_la_manga = int(dim_destino.loc[dim_destino["nombre"] == "La Manga", "destino_id"].iloc[0])
-    hechos = pd.DataFrame(
-        [{"destino_id": id_la_manga, "fecha_id": 201912, **{m: 0 for m in MEDIDAS}}]
-    )
-    publicados = pd.DataFrame(
-        [{"fecha_id": 201912, "zona": "costa", **{m: 1000 for m in MEDIDAS}}]
-    )
+    hechos = pd.DataFrame([{"destino_id": id_la_manga, "fecha_id": 201912, **{m: 0 for m in MEDIDAS}}])
+    publicados = pd.DataFrame([{"fecha_id": 201912, "zona": "costa", **{m: 1000 for m in MEDIDAS}}])
     with pytest.raises(AssertionError, match="no cuadran"):
         cuadra_con_totales_publicados(hechos, dim_destino, publicados, MEDIDAS)
 
