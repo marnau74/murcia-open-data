@@ -29,33 +29,18 @@ from datetime import date
 from pathlib import Path
 
 import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
+
+from murcia_data.ingest.http import sesion_con_reintentos
 
 BASE_URL = "https://servicios.ine.es/wstempus/js/ES"
 INICIO_SERIE = date(2015, 1, 1)
-
-
-def _sesion_con_reintentos() -> requests.Session:
-    """Sesión HTTP con reintentos y espera exponencial ante errores transitorios."""
-    reintentos = Retry(
-        total=5,
-        backoff_factor=1.0,  # 0 s, 2 s, 4 s, 8 s, 16 s
-        status_forcelist=(429, 500, 502, 503, 504),
-        allowed_methods=("GET",),
-        respect_retry_after_header=True,
-    )
-    sesion = requests.Session()
-    sesion.mount("https://", HTTPAdapter(max_retries=reintentos))
-    sesion.headers["User-Agent"] = "murcia-open-data (+https://github.com/marnau74/murcia-open-data)"
-    return sesion
 
 
 class IneClient:
     """Cliente de solo lectura para la API del INE."""
 
     def __init__(self, sesion: requests.Session | None = None, pausa: float = 0.3, timeout: float = 30):
-        self.sesion = sesion or _sesion_con_reintentos()
+        self.sesion = sesion or sesion_con_reintentos()
         self.pausa = pausa
         self.timeout = timeout
 
