@@ -1,0 +1,190 @@
+[
+ {
+  "COD": "EOT7703",
+  "Nombre": "Nacional. Viajeros. Murcia (Región De): Costa Cálida. Residentes en España.",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9939,
+    "T3_Variable": "ZONAS TURÍSTICAS",
+    "Nombre": "Murcia (Región De): Costa Cálida",
+    "Codigo": ""
+   },
+   {
+    "Id": 19964,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en España",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 72006.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT7704",
+  "Nombre": "Nacional. Viajeros. Murcia (Región De): Costa Cálida. Residentes en el extranjero.",
+  "T3_Unidad": "Viajeros",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 284332,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Viajero",
+    "Codigo": "B"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9939,
+    "T3_Variable": "ZONAS TURÍSTICAS",
+    "Nombre": "Murcia (Región De): Costa Cálida",
+    "Codigo": ""
+   },
+   {
+    "Id": 19965,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en el Extranjero",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 18791.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT7705",
+  "Nombre": "Nacional. Pernoctaciones. Murcia (Región De): Costa Cálida. Residentes en España.",
+  "T3_Unidad": "Pernoctaciones",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 284333,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Pernoctaciones",
+    "Codigo": "C"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9939,
+    "T3_Variable": "ZONAS TURÍSTICAS",
+    "Nombre": "Murcia (Región De): Costa Cálida",
+    "Codigo": ""
+   },
+   {
+    "Id": 19964,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en España",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 239495.0
+   }
+  ]
+ },
+ {
+  "COD": "EOT7706",
+  "Nombre": "Nacional. Pernoctaciones. Murcia (Región De): Costa Cálida. Residentes en el extranjero.",
+  "T3_Unidad": "Pernoctaciones",
+  "T3_Escala": " ",
+  "MetaData": [
+   {
+    "Id": 284333,
+    "T3_Variable": "Concepto turístico",
+    "Nombre": "Pernoctaciones",
+    "Codigo": "C"
+   },
+   {
+    "Id": 9834,
+    "T3_Variable": "TIPO DE CATEGORIA",
+    "Nombre": "Total categorías",
+    "Codigo": ""
+   },
+   {
+    "Id": 9939,
+    "T3_Variable": "ZONAS TURÍSTICAS",
+    "Nombre": "Murcia (Región De): Costa Cálida",
+    "Codigo": ""
+   },
+   {
+    "Id": 19965,
+    "T3_Variable": "RESIDENCIA/ORIGEN",
+    "Nombre": "Residentes en el Extranjero",
+    "Codigo": ""
+   },
+   {
+    "Id": 72,
+    "T3_Variable": "Tipo de dato",
+    "Nombre": "Dato",
+    "Codigo": "0"
+   }
+  ],
+  "Data": [
+   {
+    "Fecha": "2026-08-01T00:00:00.000+02:00",
+    "T3_TipoDato": "Provisional",
+    "T3_Periodo": "M08",
+    "Anyo": 2026,
+    "Valor": 73127.0
+   }
+  ]
+ }
+]
