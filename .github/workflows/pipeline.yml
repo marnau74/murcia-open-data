@@ -26,8 +26,18 @@ jobs:
         run: |
           uv run ruff check .
           uv run ruff format --check .
+      - name: Estilo del SQL
+        run: uv run sqlfluff lint dbt/models dbt/tests/*.sql
       - name: Tests
         run: uv run pytest
+      # dbt contra un warehouse hecho con los fixtures: sin red y en segundos. Los tests
+      # que necesitan la ingesta completa se ejecutan en el pipeline mensual.
+      - name: dbt build (fixtures)
+        env:
+          MURCIA_WAREHOUSE: data/warehouse_ci.duckdb
+        run: |
+          uv run python scripts/warehouse_de_prueba.py "$MURCIA_WAREHOUSE"
+          uv run dbt build --project-dir dbt --profiles-dir dbt --exclude tag:datos_completos
 
   pipeline:
     needs: calidad
