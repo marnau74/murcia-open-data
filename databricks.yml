@@ -1,0 +1,63 @@
+# Databricks Asset Bundle: el proyecto dbt como job de Databricks.
+#
+# El job clona este repositorio y ejecuta `dbt build` sobre un SQL warehouse, con los
+# mismos modelos que en DuckDB, y construye silver y gold en Unity Catalog
+# (catálogo murcia_turismo). Bronze lo carga antes `python -m murcia_data.databricks`.
+#
+# El workspace no se guarda aquí: llega por DATABRICKS_HOST (CI) o por el perfil de la
+# CLI de Databricks (en local). El id del warehouse se pasa como variable.
+#
+#   databricks bundle deploy --var warehouse_id=<id>
+#   databricks bundle run dbt_murcia_turismo --var warehouse_id=<id>
+
+bundle:
+  name: murcia_turismo
+
+# El job clona el repositorio desde GitHub (git_source): no hace falta subir ficheros al
+# workspace.
+sync:
+  exclude:
+    - "**"
+
+variables:
+  warehouse_id:
+    description: Id del SQL warehouse en el que se ejecuta dbt.
+  rama:
+    description: Rama del repositorio que ejecuta el job (para probar un PR antes de fusionarlo).
+    default: main
+
+resources:
+  jobs:
+    dbt_murcia_turismo:
+      name: murcia_turismo · dbt build
+      description: >
+        Construye silver y gold en Unity Catalog con el proyecto dbt de
+        github.com/marnau74/murcia-open-data. Lo lanza el workflow publicar.yml después de
+        cargar bronze; el orquestador principal del proyecto es Dagster.
+      max_concurrent_runs: 1
+      tags:
+        proyecto: murcia-open-data
+      git_source:
+        git_url: https://github.com/marnau74/murcia-open-data
+        git_provider: gitHub
+        git_branch: ${var.rama}
+      environments:
+        - environment_key: dbt
+          spec:
+            client: "3"
+            dependencies:
+              - dbt-databricks>=1.10,<2
+      tasks:
+        - task_key: dbt_build
+          environment_key: dbt
+          dbt_task:
+            project_directory: dbt
+            commands:
+              - dbt build
+            warehouse_id: ${var.warehouse_id}
+            catalog: murcia_turismo
+            schema: silver
+
+targets:
+  prod:
+    default: true

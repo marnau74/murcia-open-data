@@ -67,7 +67,7 @@ unida as (
 )
 
 select
-    strftime(fecha, '%Y%m')::integer as fecha_id,
+    (year(fecha) * 100 + month(fecha))::integer as fecha_id,
     territorio_id,
     tipo_alojamiento_id,
     residencia_id,

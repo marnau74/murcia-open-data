@@ -27,3 +27,9 @@ aliasing = explicit
 
 [sqlfluff:rules:aliasing.column]
 aliasing = explicit
+
+# Versiones simples de las macros de dbt/macros/portabilidad.sql, solo para revisar el
+# estilo (el motor Jinja de sqlfluff no tiene adapter.dispatch de dbt).
+[sqlfluff:templater:jinja:macros]
+coincide_regex = {% macro coincide_regex(columna, patron) %}regexp_matches({{ columna }}, '{{ patron }}'){% endmacro %}
+meses_entre = {% macro meses_entre(tabla, desde, hasta) %}select unnest(generate_series({{ desde }}, {{ hasta }}, interval 1 month))::date as fecha from {{ tabla }}{% endmacro %}

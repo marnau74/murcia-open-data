@@ -12,6 +12,8 @@ clean-targets: ["target", "dbt_packages"]
 
 flags:
   require_explicit_package_overrides_for_builtin_materializations: true
+  # dbt-databricks: materializaciones que separan create e insert (DuckDB lo ignora).
+  use_materialization_v2: true
 
 models:
   murcia_turismo:
@@ -32,15 +34,15 @@ seeds:
     +schema: ref
     series_ine:
       +column_types:
-        codigo: varchar
+        codigo: string
         tabla_id: integer
-        residencia: varchar
+        residencia: string
     territorios:
       +column_types:
-        padre_id: varchar
-        nombre_en_fuente: varchar
+        padre_id: string
+        nombre_en_fuente: string
     destinos_murciaturistica:
       +column_types:
-        destino: varchar
-        zona: varchar
-        tipo_fila: varchar
+        destino: string
+        zona: string
+        tipo_fila: string

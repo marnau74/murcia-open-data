@@ -19,6 +19,9 @@ dependencies = [
 ]
 
 [dependency-groups]
+databricks = [
+    "dbt-databricks>=1.10",
+]
 dev = [
     "dagster-webserver>=1.13",
     "pre-commit>=4.0",

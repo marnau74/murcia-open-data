@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 
 ## [Sin publicar]
 
+### Añadido
+- Databricks como segundo destino del mismo proyecto dbt (ADR 0005): catálogo
+  `murcia_turismo` en Unity Catalog, bronze subido a un volume y creado como tablas Delta,
+  target `databricks` en dbt, macros de portabilidad, job definido en un Databricks Asset
+  Bundle (`databricks.yml`) y test de paridad de gold entre DuckDB y Databricks. Se ejecuta
+  en la publicación mensual si el repositorio tiene los secretos de Databricks.
+
 ## [2.0.0] - 2026-09-29
 
 Plataforma de datos: dos fuentes, arquitectura por capas, dbt, Dagster y publicación

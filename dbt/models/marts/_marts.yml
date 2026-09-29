@@ -27,7 +27,7 @@ models:
       - name: trimestre
         data_type: smallint
       - name: nombre_mes
-        data_type: varchar
+        data_type: string
 
   - name: dim_territorio
     description: >
@@ -38,24 +38,24 @@ models:
       contract: {enforced: true}
     columns:
       - name: territorio_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests: [unique]
       - name: nombre
-        data_type: varchar
+        data_type: string
       - name: nivel
         description: pais, region, zona_ine, punto_ine, zona_mt o destino_mt.
-        data_type: varchar
+        data_type: string
         data_tests:
           - accepted_values:
               arguments: {values: [pais, region, zona_ine, punto_ine, zona_mt, destino_mt]}
       - name: padre_id
-        data_type: varchar
+        data_type: string
         data_tests:
           - relationships:
               arguments: {to: ref('dim_territorio'), field: territorio_id}
       - name: fuente
-        data_type: varchar
+        data_type: string
       - name: es_desglosado
         description: Falso en los destinos «(no desglosado)» que recogen el secreto estadístico.
         data_type: boolean
@@ -65,24 +65,24 @@ models:
       contract: {enforced: true}
     columns:
       - name: tipo_alojamiento_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests: [unique]
       - name: nombre
-        data_type: varchar
+        data_type: string
       - name: encuesta_ine
-        data_type: varchar
+        data_type: string
 
   - name: dim_residencia
     config:
       contract: {enforced: true}
     columns:
       - name: residencia_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests: [unique]
       - name: nombre
-        data_type: varchar
+        data_type: string
 
   # --- Hechos ------------------------------------------------------------------------
 
@@ -104,19 +104,19 @@ models:
           - relationships:
               arguments: {to: ref('dim_fecha'), field: fecha_id}
       - name: territorio_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests:
           - relationships:
               arguments: {to: ref('dim_territorio'), field: territorio_id}
       - name: tipo_alojamiento_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests:
           - relationships:
               arguments: {to: ref('dim_tipo_alojamiento'), field: tipo_alojamiento_id}
       - name: residencia_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests:
           - relationships:
@@ -136,7 +136,7 @@ models:
         description: Alguna de las medidas de la fila está bajo secreto estadístico.
         data_type: boolean
       - name: fuente
-        data_type: varchar
+        data_type: string
         data_tests:
           - accepted_values:
               arguments: {values: [INE, murciaturistica]}
@@ -158,13 +158,13 @@ models:
           - relationships:
               arguments: {to: ref('dim_fecha'), field: fecha_id}
       - name: territorio_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests:
           - relationships:
               arguments: {to: ref('dim_territorio'), field: territorio_id}
       - name: tipo_alojamiento_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests:
           - relationships:
@@ -185,7 +185,7 @@ models:
       - {name: ocupacion_parcelas_fin_semana, data_type: double, data_tests: [porcentaje]}
       - {name: es_provisional, data_type: boolean}
       - {name: tiene_secreto, data_type: boolean}
-      - {name: fuente, data_type: varchar}
+      - {name: fuente, data_type: string}
 
   - name: fct_precios_mensual
     description: >
@@ -204,18 +204,18 @@ models:
           - relationships:
               arguments: {to: ref('dim_fecha'), field: fecha_id}
       - name: territorio_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
         data_tests:
           - relationships:
               arguments: {to: ref('dim_territorio'), field: territorio_id}
       - name: tipo_alojamiento_id
-        data_type: varchar
+        data_type: string
         constraints: [{type: not_null}]
       - {name: indice_precios, data_type: double, data_tests: [no_negativo]}
       - {name: variacion_interanual, description: Variación respecto al mismo mes del año anterior (%)., data_type: double}
       - {name: es_provisional, data_type: boolean}
-      - {name: fuente, data_type: varchar}
+      - {name: fuente, data_type: string}
 
 unit_tests:
   - name: demanda_une_las_fuentes_y_separa_la_residencia

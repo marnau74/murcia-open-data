@@ -20,7 +20,7 @@ union all
 
 select
     fecha,
-    upper(zona[1]) || zona[2:] || ' (no desglosado)' as destino,
+    upper(substr(zona, 1, 1)) || substr(zona, 2) || ' (no desglosado)' as destino,
     zona,
     false as desglosado,
     viajeros_residentes,
