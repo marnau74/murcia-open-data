@@ -52,6 +52,20 @@ COLUMNAS = [
 ]
 
 
+def parsear_tabla(contenido: bytes, anio: int, mes: int) -> pd.DataFrame:
+    """Interpreta el HTML de un mes: una fila por destino o subtotal, tal cual la
+    publica la fuente (incluye subtotales de zona y filas en blanco). Función pura:
+    la usan el cliente y la carga de bronze, que trabaja sobre la capa raw sin red."""
+    tabla = pd.read_html(io.BytesIO(contenido))[0]
+    tabla = tabla.iloc[2:].reset_index(drop=True)  # filas 0 y 1 son cabecera
+    tabla.columns = COLUMNAS
+    for columna in COLUMNAS[1:]:
+        tabla[columna] = pd.to_numeric(tabla[columna], errors="coerce")
+    tabla.insert(0, "mes", mes)
+    tabla.insert(0, "anio", anio)
+    return tabla
+
+
 class MurciaturisticaClient:
     """Cliente de solo lectura para la serie de viajeros/pernoctaciones por destino."""
 
@@ -85,14 +99,7 @@ class MurciaturisticaClient:
     def viajeros_pernoctaciones_por_destino(self, anio: int, mes: int) -> pd.DataFrame:
         """Tabla cruda de un mes: una fila por destino/subtotal, tal cual la
         publica la fuente (incluye subtotales de zona y filas en blanco)."""
-        contenido = self._descargar_html(anio, mes)
-        tabla = pd.read_html(io.BytesIO(contenido))[0]
-        tabla = tabla.iloc[2:].reset_index(drop=True)  # filas 0 y 1 son cabecera
-        tabla.columns = COLUMNAS
-        for columna in COLUMNAS[1:]:
-            tabla[columna] = pd.to_numeric(tabla[columna], errors="coerce")
-        tabla.insert(0, "mes", mes)
-        tabla.insert(0, "anio", anio)
+        tabla = parsear_tabla(self._descargar_html(anio, mes), anio, mes)
         if tabla[COLUMNAS[1:]].fillna(0).eq(0).all().all():
             # Mes aún sin publicar (la fuente lo devuelve todo a 0): no se
             # deja en caché para volver a pedirlo en la siguiente ejecución.
