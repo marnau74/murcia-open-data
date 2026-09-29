@@ -26,6 +26,12 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
   las reglas de negocio de la v1 en SQL (meses sin publicar, destino «no desglosado»
   por zona). Reproduce la tabla de hechos de la v1 sin ninguna diferencia (1.310 filas).
   Tests genéricos propios, tests singulares de negocio y tests unitarios de dbt.
+- Capa gold en dbt con contratos: `dim_fecha`, `dim_territorio` (jerarquía de las dos
+  fuentes), `dim_tipo_alojamiento`, `dim_residencia` y los hechos
+  `fct_demanda_mensual`, `fct_oferta_mensual` y `fct_precios_mensual`. Hoteles,
+  apartamentos, campings y turismo rural hasta agosto de 2026.
+- Validación cruzada entre el INE y murciaturistica, con excepciones documentadas
+  (ADR 0004).
 - sqlfluff para el estilo del SQL y `dbt build` en la CI sobre un warehouse de prueba
   construido con los fixtures.
 - pre-commit con ruff y comprobaciones básicas de ficheros.
