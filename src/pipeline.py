@@ -6,6 +6,7 @@ particularidades del endpoint.
 """
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 
 import pandas as pd
@@ -17,6 +18,7 @@ from src.transform.star_schema import (
     construir_dim_destino,
     construir_dim_fecha,
     construir_fact_ocupacion,
+    descartar_meses_sin_publicar,
 )
 from src.quality.checks import (
     cuadra_con_totales_publicados,
@@ -28,10 +30,14 @@ from src.quality.checks import (
 
 PROCESSED = Path("data/processed")
 
-# Rango de la serie a ingerir. 2020 excluido de meses marzo-junio por el
-# propio portal (COVID, sin datos); el resto de meses sí están disponibles.
+# Inicio de la serie. El final es el mes anterior al actual: los meses que la
+# fuente aún no ha publicado se descartan en la transformación, así que la
+# ejecución mensual incorpora sola los datos nuevos cuando aparecen.
 ANIO_INICIO, MES_INICIO = 2015, 1
-ANIO_FIN, MES_FIN = 2024, 12
+
+
+def _mes_anterior(hoy: date) -> tuple[int, int]:
+    return (hoy.year, hoy.month - 1) if hoy.month > 1 else (hoy.year - 1, 12)
 
 
 def main() -> None:
@@ -39,9 +45,10 @@ def main() -> None:
 
     # 1. INGESTA
     cliente = MurciaturisticaClient()
-    crudo = cliente.serie(ANIO_INICIO, MES_INICIO, ANIO_FIN, MES_FIN)
+    crudo = cliente.serie(ANIO_INICIO, MES_INICIO, *_mes_anterior(date.today()))
 
     # 2. TRANSFORMACIÓN a modelo estrella
+    crudo, sin_publicar = descartar_meses_sin_publicar(crudo)
     dim_destino = construir_dim_destino()
     fechas = pd.to_datetime(dict(year=crudo["anio"], month=crudo["mes"], day=1))
     dim_fecha = construir_dim_fecha(fechas)
@@ -66,6 +73,7 @@ def main() -> None:
     dim_fecha.to_parquet(PROCESSED / "dim_fecha.parquet", index=False)
 
     print(f"Pipeline OK: {len(fact)} filas de hechos, {len(dim_destino)} destinos, {len(dim_fecha)} meses.")
+    print(f"Último mes publicado: {dim_fecha['fecha_id'].max()}. Meses sin publicar descartados: {len(sin_publicar)}.")
 
 
 if __name__ == "__main__":

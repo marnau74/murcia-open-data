@@ -8,6 +8,7 @@ from src.transform.star_schema import (
     construir_dim_destino,
     construir_dim_fecha,
     construir_fact_ocupacion,
+    descartar_meses_sin_publicar,
 )
 from src.quality.checks import (
     cuadra_con_totales_publicados,
@@ -182,3 +183,34 @@ def test_rango_valido_detecta_negativos():
     df = pd.DataFrame({"pernoctaciones_residentes": [10, -5, 3]})
     with pytest.raises(AssertionError):
         rango_valido(df, "pernoctaciones_residentes")
+
+
+def test_descartar_meses_sin_publicar():
+    """La fuente devuelve la tabla entera a 0 para los meses que no publica
+    (COVID, meses futuros). No deben entrar como meses con cero turistas."""
+    crudo = pd.DataFrame(
+        [
+            _fila(2020, 3, "Murcia Ciudad", 0, 0, 0, 0),
+            _fila(2020, 3, "Total Ciudad", 0, 0, 0, 0),
+            _fila(2020, 7, "Murcia Ciudad", 100, 10, 200, 20),
+            _fila(2020, 7, "Total Ciudad", 100, 10, 200, 20),
+        ]
+    )
+    filtrado, descartados = descartar_meses_sin_publicar(crudo)
+    assert descartados == [202003]
+    assert set(filtrado["mes"]) == {7}
+    assert len(filtrado) == 2
+
+
+def test_descartar_meses_sin_publicar_respeta_ceros_parciales():
+    """Un mes con destinos a 0 por secreto estadístico pero con total de zona
+    publicado sí está publicado: no se descarta."""
+    crudo = pd.DataFrame(
+        [
+            _fila(2019, 12, "La Manga", 0, 0, 0, 0),
+            _fila(2019, 12, "Total Costa", 5000, 1200, 24000, 8178),
+        ]
+    )
+    filtrado, descartados = descartar_meses_sin_publicar(crudo)
+    assert descartados == []
+    assert len(filtrado) == 2

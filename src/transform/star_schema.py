@@ -66,6 +66,24 @@ MESES_ES = {
 }
 
 
+def descartar_meses_sin_publicar(crudo: pd.DataFrame) -> tuple[pd.DataFrame, list[int]]:
+    """Quita los meses que la fuente no ha publicado.
+
+    Para esos meses el portal no devuelve un error sino la tabla completa
+    con todas las celdas a 0, totales incluidos. Pasa en marzo-junio y
+    diciembre de 2020 (COVID) y en todo mes posterior al último publicado.
+    Guardarlos como 0 los haría pasar por meses con cero turistas y
+    falsearía cualquier media, así que no entran en la tabla de hechos.
+
+    Devuelve el crudo filtrado y la lista de fecha_id (AAAAMM) descartados.
+    """
+    suma_mes = crudo.groupby(["anio", "mes"])[MEDIDAS].sum().sum(axis=1)
+    vacios = suma_mes[suma_mes == 0].index
+    descartados = sorted(anio * 100 + mes for anio, mes in vacios)
+    claves = pd.MultiIndex.from_frame(crudo[["anio", "mes"]])
+    return crudo[~claves.isin(vacios)].reset_index(drop=True), descartados
+
+
 def construir_dim_fecha(fechas: pd.Series) -> pd.DataFrame:
     """Genera la dimensión fecha a partir de una serie de fechas (mensuales)."""
     fechas = pd.to_datetime(fechas.dropna().unique())

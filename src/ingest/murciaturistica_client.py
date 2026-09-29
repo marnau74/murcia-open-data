@@ -92,6 +92,10 @@ class MurciaturisticaClient:
             tabla[columna] = pd.to_numeric(tabla[columna], errors="coerce")
         tabla.insert(0, "mes", mes)
         tabla.insert(0, "anio", anio)
+        if tabla[COLUMNAS[1:]].fillna(0).eq(0).all().all():
+            # Mes aún sin publicar (la fuente lo devuelve todo a 0): no se
+            # deja en caché para volver a pedirlo en la siguiente ejecución.
+            (self.cache_dir / f"destinos_{anio}-{mes:02d}.html").unlink(missing_ok=True)
         return tabla
 
     def serie(self, anio_inicio: int, mes_inicio: int, anio_fin: int, mes_fin: int) -> pd.DataFrame:
