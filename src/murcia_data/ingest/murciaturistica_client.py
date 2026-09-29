@@ -35,7 +35,8 @@ import time
 from pathlib import Path
 
 import pandas as pd
-import requests
+
+from murcia_data.ingest.http import sesion_con_reintentos
 
 BASE_URL = "https://www.murciaturistica.es/es/descargas.xls"
 PAGINA = "viajeros-y-pernoctaciones-segun-destinos"
@@ -73,7 +74,9 @@ class MurciaturisticaClient:
         self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self.pausa = pausa
-        self.session = requests.Session()
+        self.session = sesion_con_reintentos()
+        # El portal responde 404 sin un Referer de su propia web; el User-Agent de
+        # navegador es el que se usó al descubrir el endpoint.
         self.session.headers.update(
             {
                 "User-Agent": "Mozilla/5.0 (compatible; murcia-open-data/0.1; portfolio)",

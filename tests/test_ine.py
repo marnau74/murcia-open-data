@@ -7,7 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from murcia_data.ingest.ine import BASE_URL, IneClient, _sesion_con_reintentos, codigos_del_catalogo, ingerir_series
+from murcia_data.ingest.http import sesion_con_reintentos
+from murcia_data.ingest.ine import BASE_URL, IneClient, codigos_del_catalogo, ingerir_series
 
 FIXTURES = Path(__file__).parent / "fixtures" / "ine"
 
@@ -80,7 +81,7 @@ def test_ingerir_series_no_vuelve_a_pedir_lo_ya_ingerido_ese_dia(tmp_path):
 
 
 def test_sesion_reintenta_errores_transitorios():
-    adaptador = _sesion_con_reintentos().get_adapter(BASE_URL)
+    adaptador = sesion_con_reintentos().get_adapter(BASE_URL)
     reintentos = adaptador.max_retries
 
     assert reintentos.total == 5
