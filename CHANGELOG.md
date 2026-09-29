@@ -18,6 +18,10 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
   Cartagena y Murcia, y el índice de precios hoteleros de la Región y de España. Se
   genera a partir de los metadatos estructurados del INE con
   `scripts/generar_catalogo_ine.py`.
+- Capa bronze en DuckDB (`data/warehouse.duckdb`): `bronze.ine_series` y
+  `bronze.murciaturistica_destinos`, tipadas, con el secreto estadístico y las notas
+  del INE, columnas de auditoría (`_fichero_origen`, `_ingestado_en`) y registro de
+  cada carga en `bronze._cargas`.
 - pre-commit con ruff y comprobaciones básicas de ficheros.
 - Dependabot para dependencias y GitHub Actions.
 - ADR 0001-0003: DuckDB, Dagster y arquitectura por capas.
