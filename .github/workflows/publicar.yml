@@ -51,6 +51,11 @@ jobs:
           name: release
           path: release/
           retention-days: 7
+      - uses: actions/upload-artifact@v7
+        with:
+          name: warehouse
+          path: data/warehouse.duckdb
+          retention-days: 1
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -111,3 +116,53 @@ jobs:
             # --latest=false: la release destacada del repositorio es la del código (vX.Y.Z)
             gh release create "$etiqueta" release/* --title "Datos ${hasta}" --notes-file notas.md --latest=false
           fi
+
+  # Segundo destino: el mismo proyecto dbt en Databricks (Unity Catalog, tablas Delta).
+  # Solo en la ejecución mensual o a mano, y solo si el repositorio tiene los secretos de
+  # Databricks; sin ellos el job no hace nada y el resto de la publicación no depende de él.
+  publicar-databricks:
+    needs: construir
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    steps:
+      - name: Comprobar la configuración
+        id: config
+        run: |
+          if [ -n "$DATABRICKS_HOST" ] && [ -n "$DATABRICKS_HTTP_PATH" ] && [ -n "$DATABRICKS_TOKEN" ]; then
+            echo "activo=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Databricks no está configurado en este repositorio: se omite."
+          fi
+      - if: steps.config.outputs.activo == 'true'
+        uses: actions/checkout@v7
+      - if: steps.config.outputs.activo == 'true'
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - if: steps.config.outputs.activo == 'true'
+        name: Instalar dependencias (con el grupo databricks)
+        run: uv sync --frozen --group databricks
+      - if: steps.config.outputs.activo == 'true'
+        uses: actions/download-artifact@v8
+        with:
+          name: warehouse
+          path: data
+      - if: steps.config.outputs.activo == 'true'
+        uses: databricks/setup-cli@v1.18.0
+      - if: steps.config.outputs.activo == 'true'
+        name: Cargar bronze en Unity Catalog
+        run: uv run python -m murcia_data.databricks
+      - if: steps.config.outputs.activo == 'true'
+        name: Desplegar el bundle y ejecutar dbt en Databricks
+        run: |
+          warehouse_id="${DATABRICKS_HTTP_PATH##*/}"
+          databricks bundle deploy --var warehouse_id="$warehouse_id"
+          databricks bundle run dbt_murcia_turismo --var warehouse_id="$warehouse_id"
+      - if: steps.config.outputs.activo == 'true'
+        name: Paridad de gold entre DuckDB y Databricks
+        run: uv run python -m murcia_data.databricks paridad
