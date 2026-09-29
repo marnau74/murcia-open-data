@@ -1,3 +1,5 @@
+# Los fixtures son respuestas reales de las fuentes: se guardan byte a byte.
+exclude: ^tests/fixtures/murciaturistica/
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0

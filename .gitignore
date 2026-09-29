@@ -12,3 +12,7 @@ data/processed/*
 
 # Web generada (la publica GitHub Actions)
 site/
+
+# Warehouse local (se regenera con el pipeline)
+data/*.duckdb
+data/*.duckdb.wal

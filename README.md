@@ -116,6 +116,13 @@ uv run python -m murcia_data.pipeline            # ingesta + transformación + v
 uv run python -m murcia_data.report.build_site   # genera site/index.html
 ```
 
+Plataforma v2 (en construcción):
+
+```bash
+uv run python -m murcia_data.ingest.ine          # descarga las 121 series del INE a data/raw/ine/
+uv run python -m murcia_data.bronze              # carga raw en DuckDB (data/warehouse.duckdb)
+```
+
 Para contribuir: `uv run pre-commit install` activa las mismas comprobaciones que la CI
 (ruff para lint y formato).
 
