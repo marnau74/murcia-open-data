@@ -18,3 +18,11 @@ repos:
       - id: ruff-check
         args: ["--fix"]
       - id: ruff-format
+  # Ningún fichero puede llevar rutas de un equipo personal ni correos personales.
+  - repo: local
+    hooks:
+      - id: sin-datos-personales
+        name: sin rutas locales ni correos personales
+        language: pygrep
+        entry: '(?i)([a-z]:[\\/]+users[\\/]|/home/[a-z0-9_-]+/|@(gmail|hotmail|outlook|yahoo)\.)'
+        types: [text]

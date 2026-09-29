@@ -26,3 +26,6 @@ dbt/.user.yml
 
 # Dagster en local
 .tmp_dagster_home_*/
+
+# Release de datos (la genera el workflow de publicación)
+release/

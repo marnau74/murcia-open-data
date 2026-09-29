@@ -1,13 +1,16 @@
 # Estacionalidad turística en la Región de Murcia
 
-[![pipeline](https://github.com/marnau74/murcia-open-data/actions/workflows/pipeline.yml/badge.svg)](https://github.com/marnau74/murcia-open-data/actions/workflows/pipeline.yml)
+[![ci](https://github.com/marnau74/murcia-open-data/actions/workflows/ci.yml/badge.svg)](https://github.com/marnau74/murcia-open-data/actions/workflows/ci.yml)
+[![publicar](https://github.com/marnau74/murcia-open-data/actions/workflows/publicar.yml/badge.svg)](https://github.com/marnau74/murcia-open-data/actions/workflows/publicar.yml)
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-lightgrey.svg)](LICENSE)
 
 Pipeline de datos abiertos que ingiere estadística pública, la transforma a un
 modelo dimensional, valida su calidad y publica un informe web que se
 actualiza solo cada mes.
 
-**[Ver el informe →](https://marnau74.github.io/murcia-open-data/)**
+**[Ver el informe →](https://marnau74.github.io/murcia-open-data/)** ·
+[Documentación y linaje de los datos](https://marnau74.github.io/murcia-open-data/docs/) ·
+[Descargar los datos](https://github.com/marnau74/murcia-open-data/releases)
 
 > **En evolución hacia la v2:** más fuentes (API del INE), transformaciones en dbt sobre
 > DuckDB, orquestación con Dagster y despliegue en Databricks. La v1 queda en el tag
@@ -34,6 +37,26 @@ informe, que las recalcula en cada ejecución):
   de media (1,75 en las ciudades) y un 30 % de pernoctaciones de no residentes.
 - **Recuperación desigual tras la pandemia.** En 2024, con 2019 como base
   100, el interior está en 123, las ciudades en 111 y la costa en 97.
+
+## Datos publicados
+
+Cada mes se publica una *release* `datos-AAAA-MM` con la capa gold del modelo en estrella:
+
+| Fichero | Para qué |
+|---|---|
+| `*.parquet` | Una tabla por fichero: pandas, Power BI, Spark… |
+| `murcia_turismo.duckdb` | Todas las tablas en un fichero (esquema `gold`) |
+| `contrato.json` | Versión del contrato, tablas, columnas, tipos y filas |
+| `SHA256SUMS` | Comprobación de la descarga (`sha256sum -c SHA256SUMS`) |
+
+```python
+import duckdb
+
+duckdb.sql("SELECT * FROM 'fct_demanda_mensual.parquet' LIMIT 5")
+```
+
+El contrato sigue versionado semántico: un cambio que rompe a quien consume los datos
+(quitar o renombrar una columna, cambiar un tipo) sube la versión mayor.
 
 ## Fuente de datos
 
