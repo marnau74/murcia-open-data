@@ -5,10 +5,23 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 
 ## [Sin publicar]
 
+## [2.0.0] - 2026-09-29
+
+Plataforma de datos: dos fuentes, arquitectura por capas, dbt, Dagster y publicación
+automática.
+
 ### Cambiado
+- El informe web lee de la capa gold y amplía su alcance: hoteles, campings, apartamentos y
+  turismo rural hasta el último mes publicado por el INE, empleo, precios hoteleros y el
+  resultado de la validación cruzada entre fuentes. Todas las cifras siguen saliendo de los
+  datos.
 - El código pasa a ser el paquete `murcia_data` y las dependencias se gestionan con uv
   (`pyproject.toml` y `uv.lock`).
 - La CI comprueba lint y formato con ruff antes de los tests.
+
+### Eliminado
+- El pipeline de pandas de la v1 (`pipeline.py`, `transform/`, `quality/`) y su salida en
+  Parquet: su lógica está en dbt y reproduce las mismas cifras sin ninguna diferencia.
 
 ### Añadido
 - Publicación en dos workflows: `ci.yml` (calidad en cada cambio, sin red) y
@@ -62,5 +75,6 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 - Informe web con indicadores y gráficos, publicado en GitHub Pages.
 - Ejecución mensual en GitHub Actions.
 
-[Sin publicar]: https://github.com/marnau74/murcia-open-data/compare/v1.0.0...HEAD
+[Sin publicar]: https://github.com/marnau74/murcia-open-data/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/marnau74/murcia-open-data/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/marnau74/murcia-open-data/releases/tag/v1.0.0

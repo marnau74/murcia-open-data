@@ -4,43 +4,120 @@
 [![publicar](https://github.com/marnau74/murcia-open-data/actions/workflows/publicar.yml/badge.svg)](https://github.com/marnau74/murcia-open-data/actions/workflows/publicar.yml)
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-lightgrey.svg)](LICENSE)
 
-Pipeline de datos abiertos que ingiere estadística pública, la transforma a un
-modelo dimensional, valida su calidad y publica un informe web que se
-actualiza solo cada mes.
+Plataforma de datos abiertos sobre el alojamiento turístico en la Región de Murcia. Ingiere
+dos fuentes oficiales, las organiza por capas en un warehouse, las transforma con dbt a un
+modelo en estrella, valida su calidad (incluido el cuadre entre fuentes) y publica cada mes,
+sin intervención manual, un informe web, la documentación con el linaje y los datos.
 
 **[Ver el informe →](https://marnau74.github.io/murcia-open-data/)** ·
 [Documentación y linaje de los datos](https://marnau74.github.io/murcia-open-data/docs/) ·
 [Descargar los datos](https://github.com/marnau74/murcia-open-data/releases)
 
-> **En evolución hacia la v2:** más fuentes (API del INE), transformaciones en dbt sobre
-> DuckDB, orquestación con Dagster y despliegue en Databricks. La v1 queda en el tag
-> [`v1.0.0`](https://github.com/marnau74/murcia-open-data/tree/v1.0.0); los cambios, en el
-> [CHANGELOG](CHANGELOG.md).
-
 [![Captura del informe](docs/captura.png)](https://marnau74.github.io/murcia-open-data/)
 
 ## La pregunta
 
-¿Cómo se comporta la demanda hotelera en la Región de Murcia a lo largo del
-año, y qué diferencia hay entre la costa, las ciudades y el interior? El
-sector es muy estacional; este proyecto lo cuantifica con datos oficiales.
+¿Cómo se reparte la demanda de alojamiento turístico en la Región de Murcia a lo largo del
+año y del territorio, cuánto empleo mueve y cómo evolucionan los precios? El sector es muy
+estacional; este proyecto lo cuantifica con datos oficiales.
 
 ## Resultados
 
-Con datos de enero de 2015 a diciembre de 2024 (las cifras al día están en el
-informe, que las recalcula en cada ejecución):
+Con datos hasta agosto de 2026 (las cifras al día están en el informe, que las recalcula en
+cada ejecución):
 
-- **La costa concentra su año en verano.** Agosto reúne el 18,2 % de sus
-  pernoctaciones anuales y diciembre el 2,2 %: una relación agosto/enero de
-  7,5 frente a 1,6 en las ciudades y 2,3 en el interior.
-- **Estancias más largas y más turismo extranjero en la costa:** 3,4 noches
-  de media (1,75 en las ciudades) y un 30 % de pernoctaciones de no residentes.
-- **Recuperación desigual tras la pandemia.** En 2024, con 2019 como base
-  100, el interior está en 123, las ciudades en 111 y la costa en 97.
+- **5,8 millones de pernoctaciones en 2025**, un 8 % más que en 2019. El 39 % fueron fuera de
+  los hoteles: campings, apartamentos y turismo rural.
+- **La costa concentra su año en verano.** En sus hoteles, agosto reúne el 18,2 % de las
+  pernoctaciones anuales y diciembre el 2,2 %: una relación agosto/enero de 7,5, frente a 1,6
+  en las ciudades.
+- **Los campings tienen dos temporadas.** Son el tipo de alojamiento que más reparte el año:
+  enero les deja casi el 10 % de sus pernoctaciones, más que junio.
+- **Recuperación desigual tras la pandemia.** En 2025, con 2019 como base 100, los campings
+  están en 114, los hoteles en 109 y los apartamentos en 95.
+- **El empleo sigue a la temporada:** los hoteles pasaron de 1.621 personas empleadas en
+  enero de 2025 a 2.695 en agosto.
+- **Precios hoteleros:** desde 2008 han subido menos en la Región (índice 134,6) que en el
+  conjunto de España (182,9).
+
+## Arquitectura
+
+```mermaid
+flowchart LR
+  subgraph Fuentes
+    INE[API del INE<br/>121 series]
+    MT[murciaturistica.es<br/>HTML]
+  end
+  subgraph Dagster [Dagster · un solo grafo de assets]
+    RAW[(raw<br/>respuestas tal cual)]
+    B[bronze<br/>tipado + auditoría]
+    S[silver<br/>dbt staging e intermedios]
+    G[gold<br/>modelo en estrella con contratos]
+  end
+  INE --> RAW
+  MT --> RAW
+  RAW --> B --> S --> G
+  G --> WEB[Informe web]
+  G --> DOCS[dbt docs · linaje]
+  G --> REL[Release mensual<br/>Parquet + DuckDB + contrato]
+```
+
+| Capa | Dónde | Contenido |
+|---|---|---|
+| raw | `data/raw/<fuente>/` | Respuestas originales de las fuentes; inmutable |
+| bronze | DuckDB, esquema `bronze` | Una tabla por fuente, tipada, con `_fichero_origen` e `_ingestado_en` |
+| silver | dbt (`staging`, `intermediate`) | Datos limpios y reglas de negocio (secreto estadístico, meses sin publicar) |
+| gold | dbt (`marts`) | Modelo en estrella con contratos: lo único que se consume |
+
+GitHub Actions ejecuta la calidad en cada cambio (`ci.yml`, sin red) y, el día 3 de cada mes,
+el pipeline completo con datos reales y la publicación (`publicar.yml`).
+
+**Sobre la escala:** son decenas de miles de filas. Las herramientas se han elegido por las
+prácticas que permiten (tests, contratos, linaje, reproducibilidad), no por volumen, y
+funcionarían igual con muchos más datos.
+
+## Modelo de datos
+
+| Hecho ↓ / Dimensión → | fecha | territorio | tipo de alojamiento | residencia |
+|---|:-:|:-:|:-:|:-:|
+| `fct_demanda_mensual` (viajeros, pernoctaciones) | ✓ | ✓ | ✓ | ✓ |
+| `fct_oferta_mensual` (establecimientos, plazas, empleo, ocupación %) | ✓ | ✓ | ✓ | |
+| `fct_precios_mensual` (índice de precios hoteleros) | ✓ | ✓ | ✓ | |
+
+`dim_territorio` une las geografías de las dos fuentes en una jerarquía explícita: la zona
+«Costa Cálida» del INE no es la «costa» de murciaturistica, así que nunca se suman niveles ni
+fuentes distintos.
+
+## Calidad de los datos
+
+`dbt build` y Dagster ejecutan 82 comprobaciones antes de publicar nada: grano de cada tabla,
+relaciones, rangos, contratos, cuadre de cada zona con su total publicado, que ninguna serie
+del catálogo se quede sin datos y tests unitarios de la lógica de negocio.
+
+**Validación cruzada entre fuentes.** murciaturistica y el INE salen de la misma encuesta: la
+suma de los destinos debe coincidir con el total hotelero regional del INE. En los 115 meses
+comunes, las pernoctaciones cuadran salvo por redondeo (máximo 5 en un mes de ~300.000). La
+única diferencia real, los viajeros de agosto a diciembre de 2016, está documentada como
+excepción ([ADR 0004](docs/adr/0004-validacion-cruzada-entre-fuentes.md)).
+
+## Decisiones
+
+Registradas como ADR en [`docs/adr/`](docs/adr/README.md). Las más relevantes:
+
+- **DuckDB** como warehouse: un fichero, sin servidor, reproducible con un `git clone`.
+- **Dagster** con *assets*: el linaje va de la API del INE al mart final en un solo grafo.
+- **Secreto estadístico:** murciaturistica publica 0 en los destinos cuando hay pocas
+  respuestas, pero mantiene el total de zona. Un destino «no desglosado» por zona recoge la
+  diferencia: sin él, la costa perdía 962.644 pernoctaciones y su relación agosto/enero
+  salía de 9,4 en vez de 7,5.
+- **Meses sin publicar:** un mes sin datos es un dato ausente, nunca un 0.
+- **Fuentes por código de serie**, no por tabla, y un catálogo generado a partir de los
+  metadatos del INE: si el INE publica algo que no se sabe clasificar, falla en vez de
+  adivinar.
 
 ## Datos publicados
 
-Cada mes se publica una *release* `datos-AAAA-MM` con la capa gold del modelo en estrella:
+Cada mes se publica una *release* `datos-AAAA-MM` con la capa gold:
 
 | Fichero | Para qué |
 |---|---|
@@ -55,135 +132,67 @@ import duckdb
 duckdb.sql("SELECT * FROM 'fct_demanda_mensual.parquet' LIMIT 5")
 ```
 
-El contrato sigue versionado semántico: un cambio que rompe a quien consume los datos
-(quitar o renombrar una columna, cambiar un tipo) sube la versión mayor.
+El contrato sigue versionado semántico: un cambio que rompe a quien consume los datos (quitar
+o renombrar una columna, cambiar un tipo) sube la versión mayor.
 
-## Fuente de datos
+## Fuentes
 
-**murciaturistica.es** (Instituto de Turismo de la Región de Murcia): serie
-mensual de viajeros y pernoctaciones en establecimientos hoteleros por destino
-turístico, elaborada por el CREM a partir de la Encuesta de Ocupación Hotelera
-del INE. El endpoint no está documentado como API pública; se descubrió
-navegando la web y sus particularidades están explicadas en
-[`murciaturistica_client.py`](src/murcia_data/ingest/murciaturistica_client.py).
-
-Se descartaron tras explorarlas: el INE en bruto (solo distingue Cartagena /
-Murcia capital / Costa Cálida, sin el desglose de 11 destinos que sí ofrece la
-fuente elegida) y los portales CKAN regionales y municipales (uno solo tiene
-directorios de establecimientos, no series de demanda; el del Ayuntamiento de
-Murcia es inalcanzable).
-
-## Arquitectura
-
-```
-murciaturistica.es (destinos)
-      │  ingest/              cliente de solo lectura, con caché local
-      ▼
-data/raw/                     HTML crudo por mes (no versionado)
-      │  transform/           modelo estrella (pandas)
-      ▼
-data/processed/*.parquet      fact + dimensiones
-      │  quality/             validaciones (nulos, duplicados, integridad,
-      │                       rangos y cuadre con los totales publicados)
-      │  report/              indicadores + generación de la web
-      ▼
-site/index.html               publicado en GitHub Pages
-```
-
-GitHub Actions ejecuta los tests en cada push y pull request. El día 1 de cada
-mes, además, lanza el pipeline completo y vuelve a publicar la web. El
-pipeline pide hasta el mes anterior al actual, así que incorpora los datos
-nuevos en cuanto la fuente los publica.
-
-### Modelo estrella
-
-- `fact_ocupacion`: viajeros y pernoctaciones (residentes / no residentes) por
-  destino y mes.
-- `dim_destino`: nombre y zona (ciudad / costa / interior). Es la
-  clasificación oficial del Instituto de Turismo, no una inventada para este
-  proyecto.
-- `dim_fecha`: fecha, año, mes, trimestre.
-
-## Decisiones sobre los datos
-
-### Secreto estadístico
-
-Cuando el grado de respuesta de las encuestas es bajo, la fuente publica 0 en
-los destinos individuales pero mantiene el subtotal real de la zona. Sumar
-solo los destinos perdía 962.644 pernoctaciones de costa en 45 meses (sobre
-todo de invierno), un 3,5 % del total. Eso exageraba la estacionalidad de la
-costa: relación agosto/enero de 9,4 en vez del 7,5 real.
-
-Por eso `dim_destino` incluye un miembro `(no desglosado)` por zona que recoge
-esa diferencia, y `quality/` valida en cada ejecución que sumar una zona
-reproduce exactamente el total publicado. La columna `desglosado` permite
-excluir esos miembros del análisis por destino sin falsear los agregados por
-zona.
-
-### Meses sin publicar
-
-Para los meses que no publica (marzo a junio y diciembre de 2020, y cualquier
-mes posterior al último disponible), la fuente no devuelve un error sino la
-tabla entera a 0. Tratarlos como meses con cero turistas hundiría las medias,
-así que se excluyen de la tabla de hechos y no se guardan en caché. Las
-comparaciones entre meses del informe usan solo años completos.
+- **INE**, API JSON pública: encuestas de ocupación en hoteles (EOH), apartamentos turísticos
+  (EOAP), campings (EOAC) y turismo rural (EOTR), e índice de precios hoteleros (IPH). Región,
+  Costa Cálida, Cartagena y Murcia, desde 2015.
+- **murciaturistica.es** (Instituto de Turismo de la Región de Murcia, elaborado por el CREM):
+  viajeros y pernoctaciones hoteleras en los 11 destinos turísticos oficiales, de 2015 a 2024.
+  El endpoint no está documentado como API; sus particularidades están explicadas en
+  [`murciaturistica_client.py`](src/murcia_data/ingest/murciaturistica_client.py).
 
 ## Cómo ejecutarlo
 
 Requiere [uv](https://docs.astral.sh/uv/) (instala Python 3.12 o 3.13 si hace falta).
 
 ```bash
-uv sync                                          # entorno y dependencias exactas (uv.lock)
-uv run pytest                                    # tests de transformación, calidad e indicadores
-uv run python -m murcia_data.pipeline            # ingesta + transformación + validación
-uv run python -m murcia_data.report.build_site   # genera site/index.html
+uv sync                                                  # entorno y dependencias exactas
+uv run dagster job execute -m murcia_data.definitions -j pipeline_mensual   # todo el pipeline
+uv run python -m murcia_data.report.build_site           # informe en site/index.html
+uv run python -m murcia_data.release                     # paquete de datos en release/
 ```
 
-Plataforma v2 (en construcción):
+Con `uv run dagster dev` se abre la interfaz de Dagster (http://localhost:3000) con el grafo
+completo. Cada paso se puede lanzar también por separado:
 
 ```bash
-uv run dagster dev                               # interfaz de Dagster en http://localhost:3000
-uv run dagster job execute -m murcia_data.definitions -j pipeline_mensual   # todo, sin servidor
+uv run python -m murcia_data.ingest.ine                  # 121 series del INE a data/raw/ine/
+uv run python -m murcia_data.bronze                      # raw a DuckDB (data/warehouse.duckdb)
+uv run dbt build --project-dir dbt --profiles-dir dbt    # silver y gold: modelos y tests
 ```
 
-El trabajo `pipeline_mensual` descarga las dos fuentes, las carga en bronze y construye
-silver y gold con dbt, pasando 82 comprobaciones de calidad. Cada paso se puede lanzar
-por separado:
-
-```bash
-uv run python -m murcia_data.ingest.ine          # descarga las 121 series del INE a data/raw/ine/
-uv run python -m murcia_data.bronze              # carga raw en DuckDB (data/warehouse.duckdb)
-uv run dbt build --project-dir dbt --profiles-dir dbt   # silver y gold: modelos y tests
-```
-
-Para contribuir: `uv run pre-commit install` activa las mismas comprobaciones que la CI
-(ruff para lint y formato).
-
-La primera ejecución descarga unos 120 meses con una pausa entre peticiones
-para no sobrecargar la fuente; las siguientes usan la caché de `data/raw/`.
+Calidad: `uv run pytest`, y `uv run pre-commit install` activa las mismas comprobaciones que
+la CI (ruff, sqlfluff y un control que impide subir rutas locales o correos personales).
 
 ## Estructura
 
 ```
 src/murcia_data/
-  ingest/      cliente HTTP de la fuente (solo trae datos, no transforma)
-  transform/   construcción del modelo estrella
-  quality/     comprobaciones reutilizables desde el pipeline y los tests
-  report/      indicadores y plantilla de la web
-  pipeline.py  punto de entrada
-tests/         tests con pytest
-docs/adr/      decisiones de arquitectura
+  ingest/        clientes de las fuentes (solo traen datos, no transforman)
+  bronze.py      raw a DuckDB
+  definitions.py grafo de Dagster: assets, comprobaciones y programación
+  report/        indicadores (SQL sobre gold) y plantilla de la web
+  release.py     paquete de datos para las releases
+dbt/
+  models/        staging, intermediate y marts
+  seeds/         catálogo de series del INE, territorios y excepciones documentadas
+  tests/         tests singulares y genéricos propios
+tests/           pytest, con respuestas reales de las fuentes recortadas como fixtures
+docs/adr/        decisiones de arquitectura
 ```
-
-Las decisiones de diseño están documentadas como ADR en [`docs/adr/`](docs/adr/README.md).
 
 ## Stack
 
-Python · uv · ruff · pandas · requests · pyarrow · pytest · GitHub Actions ·
+Python · uv · ruff · requests · DuckDB · dbt · Dagster · pytest · sqlfluff · GitHub Actions ·
 GitHub Pages · Observable Plot
 
 ## Licencia
 
-Código bajo licencia [MIT](LICENSE). Los datos pertenecen a sus autores (Instituto
-de Turismo de la Región de Murcia, CREM e INE) y no se redistribuyen en este
-repositorio: el pipeline los descarga de la fuente original.
+Código bajo licencia [MIT](LICENSE). Los datos pertenecen a sus autores (INE, Instituto de
+Turismo de la Región de Murcia y CREM) y no se redistribuyen en el código del repositorio:
+el pipeline los descarga de las fuentes originales, y las releases contienen solo los datos
+derivados, con la atribución correspondiente.
