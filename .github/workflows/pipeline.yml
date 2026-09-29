@@ -1,0 +1,21 @@
+name: pipeline-mensual
+
+on:
+  schedule:
+    - cron: "0 6 1 * *"   # día 1 de cada mes a las 06:00 UTC
+  workflow_dispatch: {}    # permite lanzarlo a mano desde la pestaña Actions
+
+jobs:
+  ejecutar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Tests de calidad
+        run: pytest -q
+      - name: Ejecutar pipeline
+        run: python -m src.pipeline
