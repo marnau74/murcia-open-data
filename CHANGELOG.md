@@ -5,6 +5,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 
 ## [Sin publicar]
 
+## [2.1.0] - 2026-09-29
+
 ### Añadido
 - Databricks como segundo destino del mismo proyecto dbt (ADR 0005): catálogo
   `murcia_turismo` en Unity Catalog, bronze subido a un volume y creado como tablas Delta,
@@ -82,6 +84,7 @@ automática.
 - Informe web con indicadores y gráficos, publicado en GitHub Pages.
 - Ejecución mensual en GitHub Actions.
 
-[Sin publicar]: https://github.com/marnau74/murcia-open-data/compare/v2.0.0...HEAD
+[Sin publicar]: https://github.com/marnau74/murcia-open-data/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/marnau74/murcia-open-data/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/marnau74/murcia-open-data/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/marnau74/murcia-open-data/releases/tag/v1.0.0
