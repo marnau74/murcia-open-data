@@ -119,9 +119,18 @@ uv run python -m murcia_data.report.build_site   # genera site/index.html
 Plataforma v2 (en construcción):
 
 ```bash
+uv run dagster dev                               # interfaz de Dagster en http://localhost:3000
+uv run dagster job execute -m murcia_data.definitions -j pipeline_mensual   # todo, sin servidor
+```
+
+El trabajo `pipeline_mensual` descarga las dos fuentes, las carga en bronze y construye
+silver y gold con dbt, pasando 82 comprobaciones de calidad. Cada paso se puede lanzar
+por separado:
+
+```bash
 uv run python -m murcia_data.ingest.ine          # descarga las 121 series del INE a data/raw/ine/
 uv run python -m murcia_data.bronze              # carga raw en DuckDB (data/warehouse.duckdb)
-uv run dbt build --project-dir dbt --profiles-dir dbt   # capa silver: modelos y tests
+uv run dbt build --project-dir dbt --profiles-dir dbt   # silver y gold: modelos y tests
 ```
 
 Para contribuir: `uv run pre-commit install` activa las mismas comprobaciones que la CI

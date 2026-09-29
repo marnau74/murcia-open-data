@@ -11,6 +11,11 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 - La CI comprueba lint y formato con ruff antes de los tests.
 
 ### Añadido
+- Orquestación con Dagster (`murcia_data.definitions`): ingesta, bronze y modelos de dbt
+  en un único grafo de *assets* con linaje de punta a punta; los tests de dbt se
+  registran como comprobaciones, más dos propias sobre bronze (catálogo completo,
+  bloqueante, y datos recientes del INE, de aviso). Trabajo `pipeline_mensual`
+  programado el día 3 de cada mes a las 07:00 (hora de Madrid).
 - Cliente de la API del INE con reintentos y espera exponencial; ingesta de las series a
   la capa raw (`data/raw/ine/<fecha>/<serie>.json`) con escritura atómica.
 - Catálogo de 121 series del INE (`dbt/seeds/series_ine.csv`): demanda y oferta de
