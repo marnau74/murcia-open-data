@@ -1,6 +1,6 @@
 [project]
 name = "murcia-data"
-version = "1.0.0"
+version = "2.0.0"
 description = "Plataforma de datos abiertos sobre el turismo en la Región de Murcia."
 readme = "README.md"
 license = "MIT"
