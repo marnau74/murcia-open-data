@@ -35,6 +35,10 @@ seeds:
         codigo: varchar
         tabla_id: integer
         residencia: varchar
+    territorios:
+      +column_types:
+        padre_id: varchar
+        nombre_en_fuente: varchar
     destinos_murciaturistica:
       +column_types:
         destino: varchar

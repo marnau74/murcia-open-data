@@ -34,3 +34,40 @@ seeds:
         data_tests:
           - accepted_values:
               arguments: {values: [destino, subtotal, total_zona, total_region]}
+
+  - name: territorios
+    description: >
+      Territorios de las dos fuentes con su jerarquía. `nombre_en_fuente` es la etiqueta
+      que publica murciaturistica (los destinos «(no desglosado)» los crea el proyecto).
+    columns:
+      - name: territorio_id
+        data_tests: [unique, not_null]
+      - name: padre_id
+        data_tests:
+          - relationships:
+              arguments: {to: ref('territorios'), field: territorio_id}
+
+  - name: tipos_alojamiento
+    columns:
+      - name: tipo_alojamiento_id
+        data_tests: [unique, not_null]
+
+  - name: residencias
+    columns:
+      - name: residencia_id
+        data_tests: [unique, not_null]
+
+  - name: excepciones_cuadre
+    description: >
+      Diferencias entre el INE y murciaturistica ya estudiadas y documentadas, que el
+      test de validación cruzada no marca como error. Cada fila explica el motivo.
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha_id, medida]}
+    columns:
+      - name: medida
+        data_tests:
+          - accepted_values:
+              arguments: {values: [viajeros, pernoctaciones]}
+      - name: motivo
+        data_tests: [not_null]
