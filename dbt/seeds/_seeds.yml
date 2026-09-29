@@ -1,0 +1,36 @@
+version: 2
+
+seeds:
+  - name: series_ine
+    description: >
+      Catálogo de las series del INE que usa el proyecto, con sus dimensiones. Se genera
+      con scripts/generar_catalogo_ine.py a partir de los metadatos estructurados del INE.
+    columns:
+      - name: codigo
+        description: Código estable de la serie en el INE (p. ej. EOT1772).
+        data_tests: [unique, not_null]
+      - name: hecho
+        data_tests:
+          - accepted_values:
+              arguments: {values: [demanda, oferta, precios]}
+      - name: tipo_alojamiento
+        data_tests:
+          - accepted_values:
+              arguments: {values: [hotel, apartamento, camping, rural]}
+      - name: territorio
+        data_tests: [not_null]
+      - name: medida
+        data_tests: [not_null]
+
+  - name: destinos_murciaturistica
+    description: >
+      Filas que publica murciaturistica.es y su zona. Los 11 destinos y su agrupación en
+      ciudad / costa / interior son la clasificación oficial del Instituto de Turismo.
+    columns:
+      - name: destino
+        data_tests: [unique, not_null]
+      - name: tipo_fila
+        description: destino, subtotal, total_zona o total_region.
+        data_tests:
+          - accepted_values:
+              arguments: {values: [destino, subtotal, total_zona, total_region]}

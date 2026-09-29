@@ -1,0 +1,42 @@
+name: murcia_turismo
+version: "2.0.0"
+config-version: 2
+profile: murcia_turismo
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+flags:
+  require_explicit_package_overrides_for_builtin_materializations: true
+
+models:
+  murcia_turismo:
+    # silver: vistas ligeras sobre bronze (staging) y reglas de negocio (intermediate)
+    staging:
+      +schema: silver
+      +materialized: view
+    intermediate:
+      +schema: silver
+      +materialized: table
+    # gold: el modelo en estrella, con contrato (fase 4)
+    marts:
+      +schema: gold
+      +materialized: table
+
+seeds:
+  murcia_turismo:
+    +schema: ref
+    series_ine:
+      +column_types:
+        codigo: varchar
+        tabla_id: integer
+        residencia: varchar
+    destinos_murciaturistica:
+      +column_types:
+        destino: varchar
+        zona: varchar
+        tipo_fila: varchar
