@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: Capa bronze en DuckDB, cargada por murcia_data.bronze. Datos tal cual.
+    schema: bronze
+    tables:
+      - name: ine_series
+        description: Una fila por serie y mes de la última ingesta de la API del INE.
+        columns:
+          - name: codigo
+            data_tests: [not_null]
+          - name: anio
+            data_tests: [not_null]
+          - name: periodo
+            description: Mes (1-12) en las series mensuales.
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments: {values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+          - name: fk_tipo_dato
+            description: 1 = definitivo, 2 = provisional.
+            data_tests:
+              - accepted_values:
+                  arguments: {values: [1, 2]}
+      - name: murciaturistica_destinos
+        description: Una fila por destino o subtotal y mes, tal cual la publica murciaturistica.es.
+        columns:
+          - name: destino
+            data_tests: [not_null]

@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: stg_ine__series
+    description: Observaciones mensuales del INE (1:1 con bronze.ine_series), con el secreto estadístico como NULL.
+    columns:
+      - name: codigo
+        data_tests: [not_null]
+      - name: fecha
+        data_tests: [not_null]
+      - name: valor
+        description: NULL si el dato está bajo secreto estadístico o el INE no lo publica.
+      - name: es_provisional
+        description: El INE publica primero datos provisionales y los revisa después.
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [codigo, fecha]}
+
+  - name: stg_mt__destinos
+    description: Filas de murciaturistica.es (1:1 con bronze), con la llamada de los subtotales separada.
+    columns:
+      - name: destino
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('destinos_murciaturistica')
+                field: destino
+      - name: tiene_llamada
+        description: El subtotal lleva * o # (la fuente oculta los destinos ese mes).
+    data_tests:
+      - unique_combination:
+          arguments: {columns: [fecha, destino]}
+
+unit_tests:
+  - name: secreto_estadistico_pasa_a_nulo
+    model: stg_ine__series
+    given:
+      - input: source('bronze', 'ine_series')
+        rows:
+          - {codigo: EOT1, anio: 2024, periodo: 1, fk_tipo_dato: 1, valor: 1000, secreto: false}
+          - {codigo: EOT1, anio: 2024, periodo: 2, fk_tipo_dato: 1, valor: 0, secreto: true}
+          - {codigo: EOT1, anio: 2026, periodo: 8, fk_tipo_dato: 2, valor: 500, secreto: false}
+    expect:
+      rows:
+        - {codigo: EOT1, mes: 1, valor: 1000, es_secreto: false, es_provisional: false}
+        - {codigo: EOT1, mes: 2, valor: null, es_secreto: true, es_provisional: false}
+        - {codigo: EOT1, mes: 8, valor: 500, es_secreto: false, es_provisional: true}
+
+  - name: llamada_del_subtotal_se_separa_de_la_etiqueta
+    model: stg_mt__destinos
+    given:
+      - input: source('bronze', 'murciaturistica_destinos')
+        rows:
+          - {anio: 2020, mes: 11, destino: "Subtotal La Manga + Resto Mar Menor *"}
+          - {anio: 2020, mes: 11, destino: "Subtotal Águilas + Mazarrón #"}
+          - {anio: 2019, mes: 7, destino: "La Manga"}
+    expect:
+      rows:
+        - {destino: "Subtotal La Manga + Resto Mar Menor", tiene_llamada: true}
+        - {destino: "Subtotal Águilas + Mazarrón", tiene_llamada: true}
+        - {destino: "La Manga", tiene_llamada: false}
