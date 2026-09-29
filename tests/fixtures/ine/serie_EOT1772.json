@@ -1,0 +1,56 @@
+{
+ "COD": "EOT1772",
+ "Nombre": "Murcia (Región de). Pernoctaciones. Total.",
+ "FK_Unidad": 242,
+ "FK_Escala": 1,
+ "Data": [
+  {
+   "Fecha": 1420066800000,
+   "FK_TipoDato": 1,
+   "FK_Periodo": 1,
+   "Anyo": 2015,
+   "Valor": 117942.0,
+   "Secreto": false
+  },
+  {
+   "Fecha": 1422745200000,
+   "FK_TipoDato": 1,
+   "FK_Periodo": 2,
+   "Anyo": 2015,
+   "Valor": 166364.0,
+   "Secreto": false
+  },
+  {
+   "Fecha": 1425164400000,
+   "FK_TipoDato": 1,
+   "FK_Periodo": 3,
+   "Anyo": 2015,
+   "Valor": 217408.0,
+   "Secreto": false
+  },
+  {
+   "Fecha": 1780264800000,
+   "FK_TipoDato": 2,
+   "FK_Periodo": 6,
+   "Anyo": 2026,
+   "Valor": 341396.0,
+   "Secreto": false
+  },
+  {
+   "Fecha": 1782856800000,
+   "FK_TipoDato": 2,
+   "FK_Periodo": 7,
+   "Anyo": 2026,
+   "Valor": 410706.0,
+   "Secreto": false
+  },
+  {
+   "Fecha": 1785535200000,
+   "FK_TipoDato": 2,
+   "FK_Periodo": 8,
+   "Anyo": 2026,
+   "Valor": 457234.0,
+   "Secreto": false
+  }
+ ]
+}
