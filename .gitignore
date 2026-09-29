@@ -10,3 +10,6 @@ data/processed/*
 .pytest_cache/
 .DS_Store
 
+
+# Web generada (la publica GitHub Actions)
+site/

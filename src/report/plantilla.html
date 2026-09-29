@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estacionalidad turística en la Región de Murcia</title>
+<meta name="description" content="Viajeros y pernoctaciones hoteleras por destino turístico en la Región de Murcia: cómo cambia la demanda a lo largo del año en la costa, las ciudades y el interior.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fondo: #faf8f4;
+    --texto: #1c1b19;
+    --suave: #6b665e;
+    --filete: #dcd6cb;
+    --costa: #1d5b85;
+    --ciudad: #2f2d29;
+    --interior: #a08c6c;
+    --hueco: #efebe3;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --fondo: #151412;
+      --texto: #ece8e1;
+      --suave: #9d978c;
+      --filete: #35322d;
+      --costa: #74aee0;
+      --ciudad: #d9d4ca;
+      --interior: #b39f7f;
+      --hueco: #211f1c;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --fondo: #151412;
+    --texto: #ece8e1;
+    --suave: #9d978c;
+    --filete: #35322d;
+    --costa: #74aee0;
+    --ciudad: #d9d4ca;
+    --interior: #b39f7f;
+    --hueco: #211f1c;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font: 18px/1.6 "Newsreader", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 16px 40px; }
+
+  .sans, .antetitulo, .meta, .cifra, figcaption, table, footer, .nota {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+  }
+  .antetitulo {
+    font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--costa); margin: 0 0 16px;
+  }
+  h1 {
+    font-size: clamp(34px, 6vw, 52px); line-height: 1.08; font-weight: 500;
+    letter-spacing: -.015em; margin: 0 0 20px;
+  }
+  .entradilla { font-size: 22px; line-height: 1.45; margin: 0 0 20px; }
+  .meta { font-size: 14px; color: var(--suave); margin: 0; padding-bottom: 32px; border-bottom: 1px solid var(--texto); }
+
+  .cifras {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--filete); margin-bottom: 8px;
+  }
+  .cifra { padding: 24px 16px 24px 0; }
+  .cifra + .cifra { padding-left: 16px; border-left: 1px solid var(--filete); }
+  .cifra b { display: block; font-size: 30px; font-weight: 500; line-height: 1.1; font-variant-numeric: tabular-nums; margin-bottom: 8px; }
+  .cifra span { display: block; font-size: 13px; line-height: 1.4; color: var(--suave); }
+
+  section { padding-top: 48px; }
+  h2 { font-size: 28px; line-height: 1.2; font-weight: 500; margin: 0 0 12px; }
+  p { margin: 0 0 16px; }
+  figure { margin: 24px 0 0; }
+  figcaption { font-size: 13px; color: var(--suave); margin-top: 8px; line-height: 1.5; }
+  .grafico { width: 100%; min-height: 300px; }
+  .grafico svg { overflow: visible; }
+  .leyenda { font: 13px/1 "IBM Plex Sans", system-ui, sans-serif; display: flex; gap: 20px; flex-wrap: wrap; margin: 0 0 12px; color: var(--suave); }
+  .leyenda span::before { content: ""; display: inline-block; width: 16px; height: 2px; vertical-align: middle; margin-right: 6px; background: var(--c); }
+  .leyenda .costa::before { height: 3px; }
+  .cifra b small { font-size: 18px; }
+  .nota b { font-weight: 600; }
+
+  
+  table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 24px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 10px 0 10px 12px; border-bottom: 1px solid var(--filete); }
+  th:first-child, td:first-child { text-align: left; padding-left: 0; }
+  thead th { font-weight: 500; font-size: 13px; color: var(--suave); border-bottom-color: var(--texto); vertical-align: bottom; }
+  td { white-space: nowrap; }
+  td:first-child { font-weight: 500; }
+  td:first-child i { display: inline-block; width: 10px; height: 10px; margin-right: 8px; }
+
+  .nota { font-size: 15px; line-height: 1.6; }
+  .nota h2 { font-family: "Newsreader", Georgia, serif; }
+  .nota p { margin-bottom: 12px; }
+  a { color: inherit; text-decoration-color: var(--costa); text-underline-offset: 3px; }
+
+  footer {
+    max-width: 760px; margin: 0 auto; padding: 24px 16px 48px;
+    font-size: 13px; color: var(--suave); border-top: 1px solid var(--filete);
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 17px; }
+    main { padding-top: 32px; }
+    .entradilla { font-size: 19px; }
+    .cifras { grid-template-columns: 1fr 1fr; }
+    .cifra:nth-child(3) { padding-left: 0; border-left: 0; }
+    .cifra:nth-child(n+3) { border-top: 1px solid var(--filete); }
+    .cifra b { font-size: 26px; }
+    table { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <p class="antetitulo">Datos abiertos · Región de Murcia</p>
+  <h1>Estacionalidad turística en la Región de Murcia</h1>
+  <p class="entradilla" id="entradilla"></p>
+  <p class="meta" id="meta"></p>
+
+  <div class="cifras" id="cifras"></div>
+
+  <section>
+    <h2>Cómo se reparte el año</h2>
+    <p id="texto-perfil"></p>
+    <figure>
+      <div class="leyenda" aria-hidden="true"><span class="costa" style="--c:var(--costa)">Costa</span><span style="--c:var(--ciudad)">Ciudad</span><span style="--c:var(--interior)">Interior</span></div>
+      <div class="grafico" id="g-perfil"></div>
+      <figcaption id="pie-perfil"></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>La serie mes a mes</h2>
+    <p id="texto-serie"></p>
+    <figure>
+      <div class="leyenda" aria-hidden="true"><span class="costa" style="--c:var(--costa)">Costa</span><span style="--c:var(--ciudad)">Ciudad</span><span style="--c:var(--interior)">Interior</span></div>
+      <div class="grafico" id="g-serie"></div>
+      <figcaption id="pie-serie"></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Recuperación tras la pandemia</h2>
+    <p id="texto-indice"></p>
+    <figure>
+      <div class="leyenda" aria-hidden="true"><span class="costa" style="--c:var(--costa)">Costa</span><span style="--c:var(--ciudad)">Ciudad</span><span style="--c:var(--interior)">Interior</span></div>
+      <div class="grafico" id="g-indice"></div>
+      <figcaption id="pie-indice"></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Perfil de cada zona</h2>
+    <table id="tabla-zonas"></table>
+    <p class="nota" style="margin-top:12px;color:var(--suave);font-size:13px" id="pie-tabla"></p>
+  </section>
+
+  <section class="nota">
+    <h2>Nota metodológica</h2>
+    <p>Los datos son la serie mensual de viajeros y pernoctaciones en establecimientos hoteleros por destino turístico que publica el Instituto de Turismo de la Región de Murcia, elaborada por el CREM a partir de la Encuesta de Ocupación Hotelera del INE. La agrupación en ciudad, costa e interior es la clasificación oficial de destinos del propio Instituto.</p>
+    <p id="texto-secreto"></p>
+    <p id="texto-huecos"></p>
+    <p>El pipeline se ejecuta el día 1 de cada mes: descarga la serie, la transforma a un modelo en estrella, valida que cada zona cuadre con el total publicado y regenera esta página.</p>
+  </section>
+</main>
+<footer>
+  <span>Proyecto de Mario Arnau</span>
+  <span><a href="https://github.com/marnau74/murcia-open-data">Código y metodología en GitHub</a></span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.17/dist/plot.umd.min.js"></script>
+<script>
+const DATOS = /*__DATOS__*/null;
+
+const ZONAS = ["costa", "ciudad", "interior"];
+const NOMBRE = { costa: "Costa", ciudad: "Ciudad", interior: "Interior" };
+const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+const MESES_LARGO = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+const num = (v, dec = 0) => new Intl.NumberFormat("es-ES", { minimumFractionDigits: dec, maximumFractionDigits: dec }).format(v);
+const millones = v => `${num(v / 1e6, 2)} M`;
+const pct = (v, dec = 0) => `${num(v, dec)} %`;
+const conSigno = v => (v >= 0 ? "+" : "−") + pct(Math.abs(v));
+const mesTexto = ym => { const [a, m] = ym.split("-"); return `${MESES_LARGO[m - 1]} de ${a}`; };
+const $ = id => document.getElementById(id);
+
+function colores() {
+  const css = getComputedStyle(document.documentElement);
+  const c = n => css.getPropertyValue(`--${n}`).trim();
+  return { costa: c("costa"), ciudad: c("ciudad"), interior: c("interior"), suave: c("suave"), filete: c("filete"), hueco: c("hueco") };
+}
+
+// ---------- Cifras y textos (todo calculado a partir de DATOS) ----------
+const perfil = DATOS.perfil_estacional;
+const zonas = Object.fromEntries(DATOS.perfil_zonas.map(z => [z.zona, z]));
+const indice = DATOS.indice_anual;
+const completos = DATOS.anios_completos;
+const ultimoAnio = completos[completos.length - 1];
+const pctMeses = (zona, meses) => perfil.filter(d => d.zona === zona && meses.includes(d.mes)).reduce((s, d) => s + d.pct, 0);
+const verano = [6, 7, 8, 9];
+const idx = (zona, anio) => indice.find(d => d.zona === zona && d.anio === anio);
+const totalUltimo = ZONAS.reduce((s, z) => s + idx(z, ultimoAnio).pernoctaciones, 0);
+const total2019 = ZONAS.reduce((s, z) => s + idx(z, 2019).pernoctaciones, 0);
+const cambio = z => idx(z, ultimoAnio).indice - 100;
+const masCrece = ZONAS.reduce((a, b) => (cambio(b) > cambio(a) ? b : a));
+const lista = xs => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`);
+
+$("entradilla").textContent =
+  `Entre junio y septiembre la costa acumula el ${pct(pctMeses("costa", verano))} de sus pernoctaciones hoteleras del año; ` +
+  `las ciudades, el ${pct(pctMeses("ciudad", verano))}. Una serie oficial de ${DATOS.primer_mes.slice(0, 4)} a ${DATOS.ultimo_mes.slice(0, 4)} sobre cómo cambia la demanda turística a lo largo del año en la costa, las ciudades y el interior.`;
+$("meta").textContent =
+  `Datos de ${mesTexto(DATOS.primer_mes)} a ${mesTexto(DATOS.ultimo_mes)} · Fuente: Instituto de Turismo de la Región de Murcia / CREM (EOH, INE) · Actualizado el ${new Date(DATOS.generado).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}`;
+
+$("cifras").innerHTML = [
+  [millones(totalUltimo), `pernoctaciones hoteleras en ${ultimoAnio}, un ${conSigno((totalUltimo / total2019 - 1) * 100)} frente a 2019`],
+  [`${num(zonas.costa.ratio_agosto_enero, 1)}×`, `pernoctaciones de agosto frente a enero en la costa; en las ciudades, ${num(zonas.ciudad.ratio_agosto_enero, 1)}×`],
+  [`${num(zonas.costa.estancia_media, 1)} <small>noches</small>`, `de estancia media en la costa; ${num(zonas.ciudad.estancia_media, 1)} en las ciudades`],
+  [conSigno(cambio(masCrece)), `${NOMBRE[masCrece]} en ${ultimoAnio} frente a 2019, la zona que más crece. ${ZONAS.filter(z => z !== masCrece).map(z => `${NOMBRE[z]}: ${conSigno(cambio(z))}`).join(" · ")}`],
+].map(([b, s]) => `<div class="cifra"><b>${b}</b><span>${s}</span></div>`).join("");
+
+const mesPico = z => perfil.filter(d => d.zona === z).reduce((a, b) => (b.pct > a.pct ? b : a));
+const mesValle = z => perfil.filter(d => d.zona === z).reduce((a, b) => (b.pct < a.pct ? b : a));
+$("texto-perfil").textContent =
+  `Si el año se repartiera por igual, cada mes tendría el ${pct(100 / 12, 1)} de las pernoctaciones. ` +
+  `En la costa, ${MESES_LARGO[mesPico("costa").mes - 1]} se lleva el ${pct(mesPico("costa").pct, 1)} y ${MESES_LARGO[mesValle("costa").mes - 1]} solo el ${pct(mesValle("costa").pct, 1)}. ` +
+  `En las ciudades ningún mes baja del ${pct(mesValle("ciudad").pct, 1)} ni pasa del ${pct(mesPico("ciudad").pct, 1)}.`;
+$("pie-perfil").textContent = `Porcentaje de las pernoctaciones anuales de cada zona que corresponde a cada mes. La línea discontinua marca el reparto uniforme (${pct(100 / 12, 1)} por mes). Años completos ${completos[0]}–${ultimoAnio} (se excluye 2020, con meses sin publicar).`;
+
+$("texto-serie").textContent =
+  `La forma de dientes de sierra de la costa se repite cada verano. El hueco de 2020 no es un error: la fuente no publicó datos de los meses de cierre por la pandemia.`;
+$("pie-serie").textContent = `Pernoctaciones hoteleras mensuales por zona. Los tramos vacíos son meses sin datos publicados (${lista(DATOS.meses_sin_publicar.map(mesTexto))}).`;
+
+$("texto-indice").textContent =
+  `Tomando 2019 como referencia, en ${ultimoAnio} el interior está en ${num(idx("interior", ultimoAnio).indice)}, las ciudades en ${num(idx("ciudad", ultimoAnio).indice)} y la costa en ${num(idx("costa", ultimoAnio).indice)}. ` +
+  (() => {
+    const pordebajo = ZONAS.filter(z => idx(z, ultimoAnio).indice < 100).map(z => NOMBRE[z].toLowerCase());
+    if (!pordebajo.length) return "Las tres zonas han superado ya el nivel previo a la pandemia.";
+    return pordebajo.length === 1
+      ? `La ${pordebajo[0]} es la única zona que aún no ha vuelto al nivel previo a la pandemia.`
+      : `Siguen por debajo del nivel previo a la pandemia: ${lista(pordebajo)}.`;
+  })();
+$("pie-indice").textContent = `Pernoctaciones anuales, base 100 = 2019. Solo años completos; 2020 queda fuera.`;
+
+$("tabla-zonas").innerHTML =
+  `<thead><tr><th>Zona</th><th>Agosto / enero</th><th>Estancia media (noches)</th><th>No residentes</th></tr></thead><tbody>` +
+  ZONAS.map(z => `<tr><td><i style="background:var(--${z})"></i>${NOMBRE[z]}</td><td>${num(zonas[z].ratio_agosto_enero, 1)}×</td><td>${num(zonas[z].estancia_media, 2)}</td><td>${pct(zonas[z].pct_no_residentes, 1)}</td></tr>`).join("") +
+  `</tbody>`;
+$("pie-tabla").textContent = `Acumulado de los años completos ${completos[0]}–${ultimoAnio}. No residentes: porcentaje de las pernoctaciones de viajeros con residencia fuera de España.`;
+
+const nd = DATOS.no_desglosado;
+$("texto-secreto").innerHTML =
+  `<b>Secreto estadístico.</b> Cuando pocos establecimientos responden a la encuesta, la fuente publica 0 en los destinos concretos pero mantiene el total real de la zona. ` +
+  `Pasa en la costa, sobre todo en invierno: ${num(nd.meses_afectados)} meses y ${num(nd.pernoctaciones_no_desglosadas)} pernoctaciones (${pct(nd.pct_del_total, 1)} del total). ` +
+  `Quedarse solo con los destinos subiría la relación agosto/enero de la costa de ${num(nd.ratio_con_correccion, 1)} a ${num(nd.ratio_sin_correccion, 1)} y exageraría su estacionalidad. ` +
+  `Por eso cada zona tiene un destino «no desglosado» que recoge la diferencia, y el pipeline comprueba en cada ejecución que la suma de cada zona coincide con el total publicado.`;
+$("texto-huecos").innerHTML =
+  `<b>Meses sin publicar.</b> Para ${lista(DATOS.meses_sin_publicar.map(mesTexto))}, la fuente devuelve la tabla entera a 0, totales incluidos. No se tratan como meses sin turistas sino como datos ausentes.`;
+
+// ---------- Gráficos ----------
+const ejes = { style: { fontFamily: "IBM Plex Sans, system-ui, sans-serif", fontSize: "12px", background: "transparent", overflow: "visible" } };
+
+function graficoPerfil(ancho, c) {
+  return Plot.plot({
+    ...ejes, width: ancho, height: 320, marginLeft: 40, marginRight: 8,
+    x: { domain: d3.range(1, 13), type: "point", tickFormat: m => MESES[m - 1], label: null },
+    y: { grid: true, label: "% del año", tickFormat: v => num(v), domain: [0, Math.ceil(d3.max(perfil, d => d.pct) / 5) * 5] },
+    color: { domain: ZONAS, range: ZONAS.map(z => c[z]) },
+    marks: [
+      Plot.ruleY([100 / 12], { stroke: c.suave, strokeDasharray: "3,3" }),
+      Plot.line(perfil, { x: "mes", y: "pct", stroke: "zona", strokeWidth: d => (d.zona === "costa" ? 2.5 : 1.75) }),
+      Plot.dot(perfil, { x: "mes", y: "pct", fill: "zona", r: 2.5 }),
+      Plot.tip(perfil, Plot.pointer({ x: "mes", y: "pct", title: d => `${NOMBRE[d.zona]} · ${MESES_LARGO[d.mes - 1]}\n${pct(d.pct, 1)} del año` })),
+    ],
+  });
+}
+
+function graficoSerie(ancho, c) {
+  const serie = DATOS.serie_mensual.map(d => ({ ...d, fecha: new Date(d.fecha + "-01T00:00:00") }));
+  const huecos = DATOS.meses_sin_publicar.map(ym => new Date(ym + "-01T00:00:00"));
+  return Plot.plot({
+    ...ejes, width: ancho, height: 340, marginLeft: 48, marginRight: 8,
+    x: { type: "utc", label: null, tickFormat: d3.utcFormat("%Y") },
+    y: { grid: true, label: "pernoctaciones", tickFormat: v => (v === 0 ? "0" : `${num(v / 1000)} mil`) },
+    color: { domain: ZONAS, range: ZONAS.map(z => c[z]) },
+    marks: [
+      Plot.rectX(huecos, { x1: d => d, x2: d => d3.utcMonth.offset(d, 1), fill: c.hueco }),
+      Plot.line(serie, { x: "fecha", y: "pernoctaciones", stroke: "zona", strokeWidth: d => (d.zona === "costa" ? 1.75 : 1.25) }),
+      Plot.tip(serie.filter(d => d.pernoctaciones != null), Plot.pointerX({ x: "fecha", y: "pernoctaciones", title: d => `${NOMBRE[d.zona]} · ${MESES_LARGO[d.fecha.getMonth()]} ${d.fecha.getFullYear()}\n${num(d.pernoctaciones)} pernoctaciones` })),
+    ],
+  });
+}
+
+function graficoIndice(ancho, c) {
+  // 2020 no es año completo: se deja el hueco para no unir 2019 con 2021.
+  const anios = d3.range(d3.min(indice, d => d.anio), d3.max(indice, d => d.anio) + 1);
+  const datos = ZONAS.flatMap(z => anios.map(a => ({ zona: z, anio: a, indice: idx(z, a)?.indice ?? null })));
+  return Plot.plot({
+    ...ejes, width: ancho, height: 300, marginLeft: 40, marginRight: 8,
+    x: { label: null, tickFormat: d => String(d), ticks: anios },
+    y: { grid: true, label: "índice (2019 = 100)", domain: [Math.min(40, d3.min(datos, d => d.indice)), Math.max(130, d3.max(datos, d => d.indice))] },
+    color: { domain: ZONAS, range: ZONAS.map(z => c[z]) },
+    marks: [
+      Plot.ruleY([100], { stroke: c.suave }),
+      Plot.line(datos, { x: "anio", y: "indice", stroke: "zona", strokeWidth: d => (d.zona === "costa" ? 2.5 : 1.75) }),
+      Plot.dot(datos.filter(d => d.indice != null), { x: "anio", y: "indice", fill: "zona", r: 2.5 }),
+      Plot.tip(datos.filter(d => d.indice != null), Plot.pointer({ x: "anio", y: "indice", title: d => `${NOMBRE[d.zona]} · ${d.anio}\nÍndice ${num(d.indice)}` })),
+    ],
+  });
+}
+
+const GRAFICOS = [["g-perfil", graficoPerfil], ["g-serie", graficoSerie], ["g-indice", graficoIndice]];
+function dibujar() {
+  const c = colores();
+  for (const [id, fn] of GRAFICOS) {
+    const cont = $(id);
+    cont.replaceChildren(fn(cont.clientWidth, c));
+  }
+}
+dibujar();
+let espera;
+new ResizeObserver(() => { clearTimeout(espera); espera = setTimeout(dibujar, 150); }).observe($("g-perfil"));
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", dibujar);
+</script>
+</body>
+</html>
