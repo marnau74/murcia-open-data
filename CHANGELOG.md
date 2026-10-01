@@ -19,6 +19,10 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 - `databricks-sdk` se usaba sin estar declarado (llegaba con `dbt-databricks`).
 - La documentación decía 82 comprobaciones; son 100 (98 tests de dbt y 2 de Dagster).
 
+### Seguridad
+- Las acciones de GitHub van fijadas por SHA (con la versión en un comentario) en lugar de por
+  etiqueta, que su autor puede mover; Dependabot las actualiza agrupadas.
+
 ## [2.1.0] - 2026-09-29
 
 ### Añadido
