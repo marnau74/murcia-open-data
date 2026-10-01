@@ -79,8 +79,9 @@ def raw_ine(rutas: Rutas) -> dg.MaterializeResult:
 
 @dg.asset(group_name="raw", kinds={"python"})
 def raw_murciaturistica(rutas: Rutas) -> dg.MaterializeResult:
-    """Tablas mensuales de murciaturistica.es. Los meses ya descargados salen de la caché y
-    los que la fuente aún no publica no se guardan."""
+    """Tablas mensuales de murciaturistica.es. Los meses ya descargados salen de la caché,
+    salvo los últimos, que se revisan; los que la fuente aún no publica vienen a 0 y se
+    descartan en silver."""
     carpeta = Path(rutas.raw) / "murciaturistica"
     MurciaturisticaClient(cache_dir=carpeta).serie(*INICIO_SERIE, *mes_anterior(date.today()))
     meses = sorted(carpeta.glob("destinos_*.html"))

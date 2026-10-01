@@ -20,6 +20,7 @@ dependencies = [
 
 [dependency-groups]
 databricks = [
+    "databricks-sdk>=0.47",  # murcia_data.databricks lo usa directamente: no se fía de que llegue con dbt-databricks
     "dbt-databricks>=1.10",
 ]
 dev = [

@@ -1383,6 +1383,7 @@ dependencies = [
 
 [package.dev-dependencies]
 databricks = [
+    { name = "databricks-sdk" },
     { name = "dbt-databricks" },
 ]
 dev = [
@@ -1407,7 +1408,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-databricks = [{ name = "dbt-databricks", specifier = ">=1.10" }]
+databricks = [
+    { name = "databricks-sdk", specifier = ">=0.47" },
+    { name = "dbt-databricks", specifier = ">=1.10" },
+]
 dev = [
     { name = "dagster-webserver", specifier = ">=1.13" },
     { name = "pre-commit", specifier = ">=4.0" },

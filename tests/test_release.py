@@ -89,3 +89,17 @@ def test_sin_tablas_en_gold_falla(tmp_path):
     duckdb.connect(str(ruta)).close()
     with pytest.raises(ValueError, match="gold"):
         exportar(ruta, tmp_path / "release")
+
+
+def test_solo_borra_y_suma_los_ficheros_que_genera(warehouse, tmp_path):
+    # Si la carpeta de salida apunta por error a otra con más cosas, no se borran ni entran en las sumas.
+    salida = tmp_path / "release"
+    salida.mkdir()
+    (salida / "notas.txt").write_text("de otra persona", encoding="utf-8")
+    (salida / "subcarpeta").mkdir()
+
+    exportar(warehouse, salida)
+
+    assert (salida / "notas.txt").read_text(encoding="utf-8") == "de otra persona"
+    assert (salida / "subcarpeta").is_dir()
+    assert "notas.txt" not in (salida / "SHA256SUMS").read_text(encoding="utf-8")

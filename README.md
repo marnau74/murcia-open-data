@@ -104,9 +104,10 @@ fuentes distintos.
 
 ## Calidad de los datos
 
-`dbt build` y Dagster ejecutan 82 comprobaciones antes de publicar nada: grano de cada tabla,
-relaciones, rangos, contratos, cuadre de cada zona con su total publicado, que ninguna serie
-del catálogo se quede sin datos y tests unitarios de la lógica de negocio.
+`dbt build` y Dagster ejecutan 100 comprobaciones antes de publicar nada (98 tests de dbt, de datos
+y unitarios, y 2 de Dagster sobre bronze): grano de cada tabla, relaciones, rangos, contratos,
+cuadre de cada zona con su total publicado, que ninguna serie del catálogo se quede sin datos y
+tests unitarios de la lógica de negocio.
 
 **Validación cruzada entre fuentes.** murciaturistica y el INE salen de la misma encuesta: la
 suma de los destinos debe coincidir con el total hotelero regional del INE. En los 115 meses

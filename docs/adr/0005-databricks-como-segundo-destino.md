@@ -42,7 +42,7 @@ aparte:
 
 ## Consecuencias
 
-- Los mismos 117 tests y contratos de dbt pasan en los dos motores, y gold es idéntico.
+- Los mismos tests de dbt (de datos y unitarios) y los mismos contratos pasan en los dos motores, y gold es idéntico.
 - Un modelo nuevo tiene que usar SQL común a los dos o una macro de portabilidad; la CI
   solo prueba DuckDB, así que la paridad se comprueba en la ejecución mensual.
 - Free Edition tiene cuotas y no admite uso comercial: vale para este proyecto, y el resto

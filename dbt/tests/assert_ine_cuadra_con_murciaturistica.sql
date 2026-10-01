@@ -4,7 +4,8 @@
 --
 -- Tolerancia: murciaturistica suma destinos ya redondeados, así que se admiten
 -- diferencias de redondeo (máximo observado: 5 pernoctaciones en un mes de ~300.000).
--- Se marca como error una diferencia de más de 10 unidades y del 0,05 %.
+-- Se marca como error una diferencia de más de 10 unidades y del 0,05 % (el informe usa la
+-- misma tolerancia: murcia_data.report.indicadores.TOLERANCIA_CUADRE).
 --
 -- Las diferencias ya estudiadas y documentadas están en el seed `excepciones_cuadre`
 -- (con su motivo): se excluyen solo para esa medida y ese mes.

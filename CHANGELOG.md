@@ -5,6 +5,20 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 
 ## [Sin publicar]
 
+### Corregido
+- La caché de murciaturistica no volvía a pedir nunca un mes ya descargado (aunque la fuente lo
+  revisara), y los meses sin publicar se borraban y se volvían a pedir en cada ejecución: con la
+  fuente parada desde 2024, eran más de veinte peticiones inútiles por ejecución, y cada mes una
+  más. Ahora se guardan todos y se revisan solo los seis últimos. La escritura en la caché es
+  atómica, como la del INE.
+- `release.py` borraba todo lo que hubiera en la carpeta de salida y sumaba cualquier fichero que
+  encontrara en ella: ahora solo toca y suma los que genera.
+- El informe y el test de dbt contaban de forma distinta los meses en los que cuadran las dos
+  fuentes: ahora usan la misma tolerancia (10 unidades o el 0,05 %).
+- `fct_precios_mensual.tipo_alojamiento_id` no tenía test de relación con su dimensión.
+- `databricks-sdk` se usaba sin estar declarado (llegaba con `dbt-databricks`).
+- La documentación decía 82 comprobaciones; son 100 (98 tests de dbt y 2 de Dagster).
+
 ## [2.1.0] - 2026-09-29
 
 ### Añadido

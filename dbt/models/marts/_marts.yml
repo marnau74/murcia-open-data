@@ -212,6 +212,9 @@ models:
       - name: tipo_alojamiento_id
         data_type: string
         constraints: [{type: not_null}]
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_tipo_alojamiento'), field: tipo_alojamiento_id}
       - {name: indice_precios, data_type: double, data_tests: [no_negativo]}
       - {name: variacion_interanual, description: Variación respecto al mismo mes del año anterior (%)., data_type: double}
       - {name: es_provisional, data_type: boolean}

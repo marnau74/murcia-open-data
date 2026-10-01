@@ -149,9 +149,16 @@ def precios(con: duckdb.DuckDBPyConnection) -> list[dict]:
     return _filas(con, sql)
 
 
+# La misma tolerancia que el test de dbt assert_ine_cuadra_con_murciaturistica: un mes cuadra si
+# la diferencia no pasa de 10 unidades o del 0,05 % (murciaturistica suma destinos ya redondeados).
+TOLERANCIA_CUADRE = "greatest(10, 0.0005 * {ine})"
+
+
 def cuadre_fuentes(con: duckdb.DuckDBPyConnection) -> dict:
     """Resumen de la validación cruzada: totales hoteleros del INE frente a la suma de
-    destinos de murciaturistica, en los meses que publican las dos."""
+    destinos de murciaturistica, en los meses que publican las dos. Cuadrar es lo mismo que
+    para el test de dbt que la vigila."""
+    tolerancia_p, tolerancia_v = TOLERANCIA_CUADRE.format(ine="ine.p"), TOLERANCIA_CUADRE.format(ine="ine.v")
     sql = f"""
         with ine as (
             select fecha_id, sum(viajeros) as v, sum(pernoctaciones) as p
@@ -162,8 +169,8 @@ def cuadre_fuentes(con: duckdb.DuckDBPyConnection) -> dict:
         )
         select count(*) as meses,
                max(abs(ine.p - mt.p)) as dif_max_pernoctaciones,
-               count(*) filter (where abs(ine.p - mt.p) <= 10) as meses_pernoctaciones_cuadran,
-               count(*) filter (where abs(ine.v - mt.v) <= 10) as meses_viajeros_cuadran
+               count(*) filter (where abs(ine.p - mt.p) <= {tolerancia_p}) as meses_pernoctaciones_cuadran,
+               count(*) filter (where abs(ine.v - mt.v) <= {tolerancia_v}) as meses_viajeros_cuadran
         from ine join mt using (fecha_id)
     """
     resumen = _filas(con, sql)[0]
